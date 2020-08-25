@@ -1,9 +1,11 @@
-package Geometry;
+package Geometry.Parts;
+
+import Geometry.Parts.Edge;
 
 import java.util.Arrays;
 
 public class Face {
-    private Edge[] edges;
+    private final Edge[] edges;
 
     public Face(Edge... edges) {
         this.edges = Arrays.copyOf(edges, edges.length);
@@ -11,10 +13,5 @@ public class Face {
 
     public Edge[] getEdges() {
         return edges;
-    }
-
-    // TODO: maybe should be deleted
-    public void setEdges(Edge[] edges) {
-        this.edges = edges;
     }
 }

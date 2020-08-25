@@ -1,4 +1,6 @@
-package Geometry;
+package Geometry.Parts;
+
+// TODO: maybe should delete set() methods
 
 public class Vertex {
     private double x;
