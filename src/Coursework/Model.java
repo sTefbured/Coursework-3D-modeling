@@ -1,7 +1,11 @@
-import Geometry.Parts.*;
-import Geometry.Shapes.*;
-import Geometry.Shapes.Shape;
-import Exceptions.WrongCountException;
+package Coursework;
+
+import Coursework.Geometry.Parts.*;
+import Coursework.Geometry.Shapes.*;
+import Coursework.Geometry.Shapes.Shape;
+import Coursework.Exceptions.WrongCountException;
+
+import java.awt.*;
 
 // TODO: PAY ATTENTION TO THE TETRAHEDRON. MAYBE SHOULD
 //  DECLARE SOME POINTS IN OTHER WAY
@@ -18,24 +22,30 @@ public class Model {
             throws WrongCountException {
         Shape parallelepiped = new Parallelepiped(
                 new Vertex(-a / 2, 0, -c / 2),
-                new Vertex(-a / 2, b, -c / 2),
-                new Vertex(a / 2, b, -c / 2),
+                new Vertex(-a / 2, -b, -c / 2),
+                new Vertex(a / 2, -b, -c / 2),
                 new Vertex(a / 2, 0, -c / 2),
                 new Vertex(a / 2, 0, c / 2),
-                new Vertex(a / 2, b, c / 2),
-                new Vertex(-a / 2, b, c / 2),
+                new Vertex(a / 2, -b, c / 2),
+                new Vertex(-a / 2, -b, c / 2),
                 new Vertex(-a / 2, 0, c / 2)
         );
         Shape pyramid = new Tetrahedron(
-                new Vertex(0, -h, 0),
+                new Vertex(0, h, 0),
                 new Vertex(-d / 2, 0, d * Math.sqrt(3) / 6),
                 new Vertex(d / 2, 0, d * Math.sqrt(3) / 6),
-                new Vertex(0, 0, d * Math.sqrt(3) / 3)
+                new Vertex(0, 0, -d * Math.sqrt(3) / 3)
         );
         shapes = new Shape[] {
                 parallelepiped,
                 pyramid
         };
+    }
+
+    public void draw(Graphics2D graphics2D) {
+        for (Shape shape : shapes) {
+            shape.draw(graphics2D);
+        }
     }
 
     public Shape[] getShapes() {

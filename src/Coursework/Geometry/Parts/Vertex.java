@@ -1,4 +1,4 @@
-package Geometry.Parts;
+package Coursework.Geometry.Parts;
 
 // TODO: maybe should delete set() methods
 

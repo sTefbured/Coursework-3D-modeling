@@ -1,7 +1,9 @@
-package Geometry.Shapes;
+package Coursework.Geometry.Shapes;
 
-import Exceptions.WrongCountException;
-import Geometry.Parts.*;
+import Coursework.Exceptions.WrongCountException;
+import Coursework.Geometry.Parts.*;
+
+import java.awt.*;
 
 public class Parallelepiped extends Shape {
     public static final int VERTICES_COUNT = 8;

@@ -1,6 +1,4 @@
-package Geometry.Parts;
-
-import Geometry.Parts.Edge;
+package Coursework.Geometry.Parts;
 
 import java.util.Arrays;
 

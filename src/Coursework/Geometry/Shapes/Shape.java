@@ -1,8 +1,9 @@
-package Geometry.Shapes;
+package Coursework.Geometry.Shapes;
 
-import Exceptions.WrongCountException;
-import Geometry.Parts.*;
+import Coursework.Exceptions.WrongCountException;
+import Coursework.Geometry.Parts.*;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public abstract class Shape {
@@ -24,6 +25,12 @@ public abstract class Shape {
     protected abstract void initializeEdges();
 
     protected abstract void initializeFaces();
+
+    public void draw(Graphics2D graphics2D) {
+        for (Edge edge : edges) {
+            edge.draw(graphics2D);
+        }
+    }
 
     public Vertex[] getVertices() {
         return vertices;

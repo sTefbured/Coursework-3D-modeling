@@ -1,10 +1,14 @@
-import Exceptions.WrongCountException;
-import Geometry.Parts.Edge;
-import Geometry.Parts.Face;
-import Geometry.Parts.Vertex;
-import Geometry.Shapes.Shape;
+package Coursework;
+
+import Coursework.Exceptions.WrongCountException;
+import Coursework.Geometry.Parts.*;
+import Coursework.Geometry.Shapes.Shape;
 
 public class Main {
+
+    private static Model model;
+
+    private static Window window;
 
     private static void printVertex(Vertex vertex) {
         System.out.printf("%f %f %f\n",
@@ -34,7 +38,32 @@ public class Main {
         }
     }
 
+// TODO: add radius conversion
     public static void main(String[] args) {
+        if (args.length < 5) {
+            System.out.println("At least 5 arguments expected.");
+            return;
+        }
+        try {
+            model = new Model(Double.parseDouble(args[0]),
+                              Double.parseDouble(args[1]),
+                              Double.parseDouble(args[2]),
+                              Double.parseDouble(args[3]),
+                              Double.parseDouble(args[4]));
+        }
+        catch (WrongCountException exception) {
+            System.out.println(exception.getMessage());
+            return;
+        }
 
+        window = new Window("3d shape");
+    }
+
+    public static Model getModel() {
+        return model;
+    }
+
+    public static Window getWindow() {
+        return window;
     }
 }
