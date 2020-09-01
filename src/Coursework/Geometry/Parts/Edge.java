@@ -14,11 +14,11 @@ public class Edge {
         };
     }
 
-    public void draw(Graphics2D graphics2D) {
-        graphics2D.drawLine((int) vertices[0].getX() + Main.getWindow().getWidth() / 2,
-                            (int) vertices[0].getZ() + Main.getWindow().getHeight() / 2,
-                            (int) vertices[1].getX() + Main.getWindow().getWidth() / 2,
-                            (int) vertices[1].getZ() + Main.getWindow().getHeight() / 2);
+    public void draw(Graphics2D g) {
+        g.drawLine((int) vertices[0].getX() + Main.getWindow().getWidth() / 2,
+                   (int) -vertices[0].getY() + Main.getWindow().getHeight() / 2,
+                   (int) vertices[1].getX() + Main.getWindow().getWidth() / 2,
+                   (int) -vertices[1].getY() + Main.getWindow().getHeight() / 2);
     }
 
     public Vertex[] getVertices() {
