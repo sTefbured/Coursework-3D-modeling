@@ -1,4 +1,4 @@
-package Coursework;
+package сoursework;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +24,10 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         setFocusable(true);
         setVisible(true);
+        addListeners();
+    }
+
+    private void addListeners() {
         addKeyInput();
         addMouseWheelInput();
     }

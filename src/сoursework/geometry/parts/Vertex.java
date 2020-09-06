@@ -1,18 +1,17 @@
-package Coursework.Geometry.Parts;
+package сoursework.geometry.parts;
 
-// TODO: maybe should delete set() methods
-
+// TODO: change "one" to other name
 public class Vertex {
     private double x;
     private double y;
     private double z;
     private double one;
 
-    public Vertex(double x, double y, double z) {
+    public Vertex(double x, double y, double z, double one) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.one = 1;
+        this.one = one;
     }
 
     public double getX() {

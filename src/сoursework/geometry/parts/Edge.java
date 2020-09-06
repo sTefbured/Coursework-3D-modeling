@@ -1,6 +1,6 @@
-package Coursework.Geometry.Parts;
+package сoursework.geometry.parts;
 
-import Coursework.Main;
+import сoursework.Main;
 
 import java.awt.*;
 
@@ -18,7 +18,8 @@ public class Edge {
         g.drawLine((int) vertices[0].getX() + Main.getWindow().getWidth() / 2,
                    (int) -vertices[0].getY() + Main.getWindow().getHeight() / 2,
                    (int) vertices[1].getX() + Main.getWindow().getWidth() / 2,
-                   (int) -vertices[1].getY() + Main.getWindow().getHeight() / 2);
+                   (int) -vertices[1].getY()
+                           + Main.getWindow().getHeight() / 2);
     }
 
     public Vertex[] getVertices() {

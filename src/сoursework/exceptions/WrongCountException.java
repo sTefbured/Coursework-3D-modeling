@@ -1,4 +1,4 @@
-package Coursework.Exceptions;
+package сoursework.exceptions;
 
 public class WrongCountException extends Exception {
     public WrongCountException(String message) {

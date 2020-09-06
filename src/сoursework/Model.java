@@ -1,11 +1,11 @@
-package Coursework;
+package сoursework;
 
-import Coursework.Geometry.Parts.*;
-import Coursework.Exceptions.WrongCountException;
-import Coursework.Geometry.Shapes.*;
-import Coursework.Geometry.Shapes.Shape;
+import сoursework.geometry.parts.*;
+import сoursework.exceptions.WrongCountException;
+import сoursework.geometry.shapes.*;
+import сoursework.geometry.shapes.Shape;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 // TODO: PAY ATTENTION TO THE TETRAHEDRON. MAYBE SHOULD
 //  DECLARE SOME POINTS IN OTHER WAY
@@ -17,20 +17,20 @@ public class Model {
     public Model(double a, double b, double c, double h, double d)
             throws WrongCountException {
         Shape parallelepiped = new Parallelepiped(
-                new Vertex(-a / 2, 0, -c / 2),
-                new Vertex(-a / 2, b, -c / 2),
-                new Vertex(a / 2, b, -c / 2),
-                new Vertex(a / 2, 0, -c / 2),
-                new Vertex(a / 2, 0, c / 2),
-                new Vertex(a / 2, b, c / 2),
-                new Vertex(-a / 2, b, c / 2),
-                new Vertex(-a / 2, 0, c / 2)
+                new Vertex(-a / 2, 0, -c / 2, 1),
+                new Vertex(-a / 2, b, -c / 2, 1),
+                new Vertex(a / 2, b, -c / 2, 1),
+                new Vertex(a / 2, 0, -c / 2, 1),
+                new Vertex(a / 2, 0, c / 2, 1),
+                new Vertex(a / 2, b, c / 2, 1),
+                new Vertex(-a / 2, b, c / 2, 1),
+                new Vertex(-a / 2, 0, c / 2, 1)
         );
         Shape pyramid = new Tetrahedron(
-                new Vertex(0, -h, 0),
-                new Vertex(-d / 2, 0, d * Math.sqrt(3) / 6),
-                new Vertex(d / 2, 0, d * Math.sqrt(3) / 6),
-                new Vertex(0, 0, -d * Math.sqrt(3) / 3)
+                new Vertex(0, -h, 0, 1),
+                new Vertex(-d / 2, 0, d * Math.sqrt(3) / 6, 1),
+                new Vertex(d / 2, 0, d * Math.sqrt(3) / 6, 1),
+                new Vertex(0, 0, -d * Math.sqrt(3) / 3, 1)
         );
 
         shapes = new Shape[] {
