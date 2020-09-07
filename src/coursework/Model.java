@@ -14,6 +14,9 @@ import java.awt.Graphics2D;
 public class Model {
     private final Shape[] shapes;
 
+    public boolean isTransforming;
+    public ModelCondition condition;
+
     public Model(double a, double b, double c, double h, double d)
             throws WrongCountException {
         Shape parallelepiped = new Parallelepiped(
@@ -32,11 +35,12 @@ public class Model {
                 new Vertex(d / 2, 0, d * Math.sqrt(3) / 6, 1),
                 new Vertex(0, 0, -d * Math.sqrt(3) / 3, 1)
         );
-
         shapes = new Shape[] {
                 parallelepiped,
                 pyramid
         };
+        isTransforming = false;
+        condition = ModelCondition.NONE;
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -60,6 +64,23 @@ public class Model {
     public void rotate(double degX, double degY, double degZ) {
         for (Shape shape : shapes) {
             shape.rotateDeg(degX, degY, degZ);
+        }
+    }
+
+    public void update() {
+        if (isTransforming) {
+            switch (condition) {
+                case MOVING_UP -> transit(0, 10, 0);
+                case MOVING_DOWN -> transit(0, -10, 0);
+                case MOVING_LEFT -> transit(-10, 0, 0);
+                case MOVING_RIGHT -> transit(10, 0, 0);
+                case ROTATING_X_NEG -> rotate(-1, 0, 0);
+                case ROTATING_X_POS -> rotate(1, 0, 0);
+                case ROTATING_Y_NEG -> rotate(0, -1, 0);
+                case ROTATING_Y_POS -> rotate(0, 1, 0);
+                case ROTATING_Z_NEG -> rotate(0, 0, -1);
+                case ROTATING_Z_POS -> rotate(0, 0, 1);
+            }
         }
     }
 

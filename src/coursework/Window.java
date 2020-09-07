@@ -36,19 +36,62 @@ public class Window extends JFrame {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+//                switch (e.getKeyCode()) {
+//                    case CODE_ARROW_LEFT -> Main.getModel().transit(-10, 0, 0);
+//                    case CODE_ARROW_UP -> Main.getModel().transit(0, 10, 0);
+//                    case CODE_ARROW_RIGHT -> Main.getModel().transit(10, 0, 0);
+//                    case CODE_ARROW_DOWN -> Main.getModel().transit(0, -10, 0);
+//                    case CODE_W_SMALL -> Main.getModel().rotate(5, 0, 0);
+//                    case CODE_S_SMALL -> Main.getModel().rotate(-5, 0, 0);
+//                    case CODE_A_SMALL -> Main.getModel().rotate(0, 5, 0);
+//                    case CODE_D_SMALL -> Main.getModel().rotate(0, -5, 0);
+//                    case CODE_E_SMALL -> Main.getModel().rotate(0, 0, 5);
+//                    case CODE_Q_SMALL -> Main.getModel().rotate(0, 0, -5);
+//                }
+//                repaint();
+                //TODO: refactor
+                Main.getModel().isTransforming = true;
                 switch (e.getKeyCode()) {
-                    case CODE_ARROW_LEFT -> Main.getModel().transit(-10, 0, 0);
-                    case CODE_ARROW_UP -> Main.getModel().transit(0, 10, 0);
-                    case CODE_ARROW_RIGHT -> Main.getModel().transit(10, 0, 0);
-                    case CODE_ARROW_DOWN -> Main.getModel().transit(0, -10, 0);
-                    case CODE_W_SMALL -> Main.getModel().rotate(5, 0, 0);
-                    case CODE_S_SMALL -> Main.getModel().rotate(-5, 0, 0);
-                    case CODE_A_SMALL -> Main.getModel().rotate(0, 5, 0);
-                    case CODE_D_SMALL -> Main.getModel().rotate(0, -5, 0);
-                    case CODE_E_SMALL -> Main.getModel().rotate(0, 0, 5);
-                    case CODE_Q_SMALL -> Main.getModel().rotate(0, 0, -5);
+                    case CODE_ARROW_LEFT -> Main
+                            .getModel()
+                            .condition = ModelCondition.MOVING_LEFT;
+                    case CODE_ARROW_UP -> Main
+                            .getModel()
+                            .condition = ModelCondition.MOVING_UP;
+                    case CODE_ARROW_RIGHT -> Main
+                            .getModel()
+                            .condition = ModelCondition.MOVING_RIGHT;
+                    case CODE_ARROW_DOWN -> Main
+                            .getModel()
+                            .condition = ModelCondition.MOVING_DOWN;
+                    case CODE_W_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_X_NEG;
+                    case CODE_S_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_X_POS;
+                    case CODE_A_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Y_NEG;
+                    case CODE_D_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Y_POS;
+                    case CODE_E_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Z_NEG;
+                    case CODE_Q_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Z_POS;
+                    default -> Main.getModel().isTransforming = false;
                 }
-                repaint();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                switch (e.getKeyCode()) {
+                    case CODE_ARROW_LEFT,
+                            CODE_ARROW_UP,
+                            CODE_ARROW_RIGHT,
+                            CODE_ARROW_DOWN,
+                            CODE_W_SMALL,
+                            CODE_S_SMALL,
+                            CODE_A_SMALL,
+                            CODE_D_SMALL,
+                            CODE_E_SMALL,
+                            CODE_Q_SMALL -> {
+                        Main.getModel().isTransforming = false;
+                        Main.getModel().condition = ModelCondition.NONE;
+                    }
+                }
             }
         });
     }
@@ -64,8 +107,7 @@ public class Window extends JFrame {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
-        Graphics2D graphics2D = (Graphics2D) graphics;
-        graphics2D.setStroke(new BasicStroke(3));
-        Main.getModel().draw(graphics2D);
+        MainPanel panel = new MainPanel();
+        add(panel);
     }
 }

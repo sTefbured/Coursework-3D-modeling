@@ -6,12 +6,13 @@ public class Main {
     private static Model model;
     private static Window window;
 
+    // TODO: create main loop
     public static void main(String[] args) {
         if (initializeModel(args) != 0) {
             return;
         }
         window = new Window("3d shape");
-        window.paint(window.getGraphics());
+        runMainLoop();
     }
 
     private static int initializeModel(String[] args) {
@@ -55,6 +56,42 @@ public class Main {
             return 1;
         }
         return 0;
+    }
+
+    private static void runMainLoop() {
+        int requiredFps = 60;
+        int updatesPerSecond = 120;
+        int ticksCount = 0;
+        int framesCount = 0;
+        long newSecondStart = System.nanoTime();
+        long lastTime = newSecondStart;
+        long currentTime;
+        long deltaFps = 0;
+        long deltaUps = 0;
+        long oneSecond = 1000000000;
+        while (true) {
+            if (deltaUps >= oneSecond / updatesPerSecond) {
+                model.update();
+                ticksCount++;
+                deltaUps = 0;
+            }
+            currentTime = System.nanoTime();
+            deltaUps += currentTime - lastTime;
+            deltaFps += currentTime - lastTime;
+            lastTime = currentTime;
+            if ((deltaFps >= oneSecond / requiredFps)) {
+                window.repaint();
+                deltaFps = 0;
+                framesCount++;
+            }
+            if (System.nanoTime() - newSecondStart >= oneSecond) {
+                System.out.printf("FPS: %d Ticks: %d\n",
+                        framesCount, ticksCount);
+                framesCount = 0;
+                ticksCount = 0;
+                newSecondStart = System.nanoTime();
+            }
+        }
     }
 
     public static Model getModel() {
