@@ -1,6 +1,6 @@
-package сoursework;
+package coursework;
 
-import сoursework.exceptions.WrongCountException;
+import coursework.exceptions.WrongCountException;
 
 public class Main {
     private static Model model;
@@ -21,7 +21,10 @@ public class Main {
         double tetrahedronSide = 100;
         double tetrahedronHeight = 100;
         for (int i = 0; i < args.length; i++) {
-            if ((args[i].charAt(0) == '-') && (args.length - 1 > i)) {
+            if ((args[i].charAt(0) != '-') || (args.length - 1 <= i)) {
+                continue;
+            }
+            try {
                 switch (args[i].charAt(1)) {
                     case 'a' -> boxWidth = Double.parseDouble(args[++i]);
                     case 'b' -> boxHeight = Double.parseDouble(args[++i]);
@@ -34,6 +37,9 @@ public class Main {
                     default -> System.out.println(args[i]
                             + ": command not found");
                 }
+            } catch (NumberFormatException exception) {
+                System.out.println("Error. A float number expected, but \""
+                                    + args[i] + "\" given.");
             }
         }
         return createModel(boxWidth, boxHeight, boxDepth,

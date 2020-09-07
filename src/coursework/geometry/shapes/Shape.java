@@ -1,8 +1,8 @@
-package сoursework.geometry.shapes;
+package coursework.geometry.shapes;
 
-import сoursework.exceptions.MatricesMismatchException;
-import сoursework.exceptions.WrongCountException;
-import сoursework.geometry.parts.*;
+import coursework.exceptions.MatricesMismatchException;
+import coursework.exceptions.WrongCountException;
+import coursework.geometry.parts.*;
 
 import java.awt.*;
 import java.util.Arrays;

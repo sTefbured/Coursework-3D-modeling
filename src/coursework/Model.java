@@ -1,9 +1,9 @@
-package сoursework;
+package coursework;
 
-import сoursework.geometry.parts.*;
-import сoursework.exceptions.WrongCountException;
-import сoursework.geometry.shapes.*;
-import сoursework.geometry.shapes.Shape;
+import coursework.geometry.parts.*;
+import coursework.exceptions.WrongCountException;
+import coursework.geometry.shapes.*;
+import coursework.geometry.shapes.Shape;
 
 import java.awt.Graphics2D;
 

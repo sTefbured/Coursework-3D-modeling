@@ -1,4 +1,4 @@
-package сoursework;
+package coursework;
 
 import javax.swing.*;
 import java.awt.*;

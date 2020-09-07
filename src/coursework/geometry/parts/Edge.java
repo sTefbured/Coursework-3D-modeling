@@ -1,6 +1,6 @@
-package сoursework.geometry.parts;
+package coursework.geometry.parts;
 
-import сoursework.Main;
+import coursework.Main;
 
 import java.awt.*;
 

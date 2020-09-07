@@ -1,4 +1,4 @@
-package сoursework.geometry.parts;
+package coursework.geometry.parts;
 
 // TODO: change "one" to other name
 public class Vertex {

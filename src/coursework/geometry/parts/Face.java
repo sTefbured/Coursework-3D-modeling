@@ -1,4 +1,4 @@
-package сoursework.geometry.parts;
+package coursework.geometry.parts;
 
 import java.awt.*;
 import java.util.Arrays;
