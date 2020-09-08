@@ -1,4 +1,4 @@
-package coursework;
+package coursework.model;
 
 public enum ModelCondition {
     MOVING_RIGHT {

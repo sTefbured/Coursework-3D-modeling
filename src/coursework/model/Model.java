@@ -1,4 +1,4 @@
-package coursework;
+package coursework.model;
 
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
@@ -15,7 +15,6 @@ import java.util.EnumSet;
 public class Model {
     private final Shape[] shapes;
 
-    public boolean isTransforming;
     public short conditions;
 
     public Model(double a, double b, double c, double h, double d)
@@ -40,7 +39,6 @@ public class Model {
                 parallelepiped,
                 pyramid
         };
-        isTransforming = false;
         conditions = 0;
     }
 
@@ -69,9 +67,6 @@ public class Model {
     }
 
     public void update() {
-        if (!isTransforming) {
-            return;
-        }
         for (ModelCondition condition : EnumSet.allOf(ModelCondition.class)) {
             if ((conditions & condition.getValue()) == condition.getValue()) {
                 condition.performAction(this);

@@ -71,7 +71,7 @@ public abstract class Shape {
                 {dest.getZ()},
                 {dest.getOne()}
         };
-        double[][] result = null;
+        double[][] result;
         try {
             result = multiply(matrix, vertexArray);
         } catch (MatricesMismatchException exception) {
@@ -92,15 +92,12 @@ public abstract class Shape {
                             + "must be equal to rows"
                             + "count of the second matrix.");
         }
-        double buffer = 0;
         double[][] outMatrix = new double[matrix1.length][matrix2[0].length];
         for (int i = 0; i < outMatrix.length; i++) {
             for (int j = 0; j < outMatrix[i].length; j++) {
                 for (int k = 0; k < outMatrix.length; k++) {
-                    buffer += matrix1[i][k] * matrix2[k][j];
+                    outMatrix[i][j] += matrix1[i][k] * matrix2[k][j];
                 }
-                outMatrix[i][j] = buffer;
-                buffer = 0;
             }
         }
         return outMatrix;

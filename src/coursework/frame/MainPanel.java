@@ -1,11 +1,13 @@
-package coursework;
+package coursework.frame;
+
+import coursework.Main;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainPanel extends JPanel {
+class MainPanel extends JPanel {
     public MainPanel() {
-        super(true);
+        super();
     }
 
     @Override

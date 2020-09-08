@@ -1,12 +1,13 @@
 package coursework;
 
 import coursework.exceptions.WrongCountException;
+import coursework.frame.Window;
+import coursework.model.Model;
 
 public class Main {
     private static Model model;
     private static Window window;
 
-    // TODO: create main loop
     public static void main(String[] args) {
         if (initializeModel(args) != 0) {
             return;
@@ -58,6 +59,7 @@ public class Main {
         return 0;
     }
 
+    //TODO: maybe add menu and exit button to remove the warning
     private static void runMainLoop() {
         int requiredFps = 60;
         int updatesPerSecond = 120;
@@ -79,7 +81,7 @@ public class Main {
             deltaUps += currentTime - lastTime;
             deltaFps += currentTime - lastTime;
             lastTime = currentTime;
-            if ((deltaFps >= oneSecond / requiredFps)) {
+            if (deltaFps >= oneSecond / requiredFps) {
                 window.repaint();
                 deltaFps = 0;
                 framesCount++;
