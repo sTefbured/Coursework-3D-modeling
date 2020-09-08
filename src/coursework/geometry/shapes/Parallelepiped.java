@@ -32,6 +32,7 @@ public class Parallelepiped extends Shape {
     @Override
     protected void initializeFaces() {
         faces = new Face[] {
+                // Front
                 new Face(edges[0], edges[1], edges[2], edges[3]),
                 // Back
                 new Face(edges[4], edges[5], edges[6], edges[7]),

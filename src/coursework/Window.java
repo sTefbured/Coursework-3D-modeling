@@ -1,5 +1,7 @@
 package coursework;
 
+import coursework.exceptions.ConditionNotFoundException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,64 +36,49 @@ public class Window extends JFrame {
 
     private void addKeyInput() {
         addKeyListener(new KeyAdapter() {
+
+            private ModelCondition getConditionByKey(int keyCode)
+                    throws ConditionNotFoundException {
+                return switch (keyCode) {
+                    case CODE_ARROW_LEFT -> ModelCondition.MOVING_LEFT;
+                    case CODE_ARROW_UP -> ModelCondition.MOVING_UP;
+                    case CODE_ARROW_RIGHT -> ModelCondition.MOVING_RIGHT;
+                    case CODE_ARROW_DOWN -> ModelCondition.MOVING_DOWN;
+                    case CODE_W_SMALL -> ModelCondition.ROTATING_X_POS;
+                    case CODE_S_SMALL -> ModelCondition.ROTATING_X_NEG;
+                    case CODE_A_SMALL -> ModelCondition.ROTATING_Y_NEG;
+                    case CODE_D_SMALL -> ModelCondition.ROTATING_Y_POS;
+                    case CODE_E_SMALL -> ModelCondition.ROTATING_Z_NEG;
+                    case CODE_Q_SMALL -> ModelCondition.ROTATING_Z_POS;
+                    default ->
+                            throw new ConditionNotFoundException();
+                };
+            }
+
             @Override
             public void keyPressed(KeyEvent e) {
-//                switch (e.getKeyCode()) {
-//                    case CODE_ARROW_LEFT -> Main.getModel().transit(-10, 0, 0);
-//                    case CODE_ARROW_UP -> Main.getModel().transit(0, 10, 0);
-//                    case CODE_ARROW_RIGHT -> Main.getModel().transit(10, 0, 0);
-//                    case CODE_ARROW_DOWN -> Main.getModel().transit(0, -10, 0);
-//                    case CODE_W_SMALL -> Main.getModel().rotate(5, 0, 0);
-//                    case CODE_S_SMALL -> Main.getModel().rotate(-5, 0, 0);
-//                    case CODE_A_SMALL -> Main.getModel().rotate(0, 5, 0);
-//                    case CODE_D_SMALL -> Main.getModel().rotate(0, -5, 0);
-//                    case CODE_E_SMALL -> Main.getModel().rotate(0, 0, 5);
-//                    case CODE_Q_SMALL -> Main.getModel().rotate(0, 0, -5);
-//                }
-//                repaint();
-                //TODO: refactor
+                super.keyPressed(e);
                 Main.getModel().isTransforming = true;
-                switch (e.getKeyCode()) {
-                    case CODE_ARROW_LEFT -> Main
-                            .getModel()
-                            .condition = ModelCondition.MOVING_LEFT;
-                    case CODE_ARROW_UP -> Main
-                            .getModel()
-                            .condition = ModelCondition.MOVING_UP;
-                    case CODE_ARROW_RIGHT -> Main
-                            .getModel()
-                            .condition = ModelCondition.MOVING_RIGHT;
-                    case CODE_ARROW_DOWN -> Main
-                            .getModel()
-                            .condition = ModelCondition.MOVING_DOWN;
-                    case CODE_W_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_X_NEG;
-                    case CODE_S_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_X_POS;
-                    case CODE_A_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Y_NEG;
-                    case CODE_D_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Y_POS;
-                    case CODE_E_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Z_NEG;
-                    case CODE_Q_SMALL -> Main.getModel().condition = ModelCondition.ROTATING_Z_POS;
-                    default -> Main.getModel().isTransforming = false;
+                ModelCondition condition;
+                try {
+                    condition = getConditionByKey(e.getKeyCode());
+                } catch (ConditionNotFoundException exception) {
+                    return;
                 }
+                Main.getModel().conditions |= condition.getValue();
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
-                switch (e.getKeyCode()) {
-                    case CODE_ARROW_LEFT,
-                            CODE_ARROW_UP,
-                            CODE_ARROW_RIGHT,
-                            CODE_ARROW_DOWN,
-                            CODE_W_SMALL,
-                            CODE_S_SMALL,
-                            CODE_A_SMALL,
-                            CODE_D_SMALL,
-                            CODE_E_SMALL,
-                            CODE_Q_SMALL -> {
-                        Main.getModel().isTransforming = false;
-                        Main.getModel().condition = ModelCondition.NONE;
-                    }
+                Main.getModel().isTransforming = false;
+                ModelCondition condition;
+                try {
+                    condition = getConditionByKey(e.getKeyCode());
+                } catch (ConditionNotFoundException exception) {
+                    return;
                 }
+                Main.getModel().conditions ^= condition.getValue();
             }
         });
     }
