@@ -1,13 +1,12 @@
 package coursework.geometry.parts;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class Face {
     private final Edge[] edges;
 
     public Face(Edge... edges) {
-        this.edges = Arrays.copyOf(edges, edges.length);
+        this.edges = edges;
     }
 
     public void draw(Graphics2D graphics2D) {

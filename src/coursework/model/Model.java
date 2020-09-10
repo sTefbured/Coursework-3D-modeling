@@ -1,4 +1,4 @@
-package coursework;
+package coursework.model;
 
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
@@ -6,6 +6,7 @@ import coursework.geometry.shapes.*;
 import coursework.geometry.shapes.Shape;
 
 import java.awt.Graphics2D;
+import java.util.EnumSet;
 
 // TODO: PAY ATTENTION TO THE TETRAHEDRON. MAYBE SHOULD
 //  DECLARE SOME POINTS IN OTHER WAY
@@ -13,6 +14,8 @@ import java.awt.Graphics2D;
 
 public class Model {
     private final Shape[] shapes;
+
+    public short conditions;
 
     public Model(double a, double b, double c, double h, double d)
             throws WrongCountException {
@@ -32,11 +35,11 @@ public class Model {
                 new Vertex(d / 2, 0, d * Math.sqrt(3) / 6, 1),
                 new Vertex(0, 0, -d * Math.sqrt(3) / 3, 1)
         );
-
         shapes = new Shape[] {
                 parallelepiped,
                 pyramid
         };
+        conditions = 0;
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -60,6 +63,14 @@ public class Model {
     public void rotate(double degX, double degY, double degZ) {
         for (Shape shape : shapes) {
             shape.rotateDeg(degX, degY, degZ);
+        }
+    }
+
+    public void update() {
+        for (ModelCondition condition : EnumSet.allOf(ModelCondition.class)) {
+            if ((conditions & condition.getValue()) == condition.getValue()) {
+                condition.performAction(this);
+            }
         }
     }
 
