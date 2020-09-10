@@ -53,7 +53,7 @@ public enum ModelCondition {
 
         @Override
         public void performAction(Model model) {
-            model.rotate(-1, 0, 0);
+            model.rotate(1, 0, 0);
         }
     },
     ROTATING_X_NEG {
@@ -64,7 +64,7 @@ public enum ModelCondition {
 
         @Override
         public void performAction(Model model) {
-            model.rotate(1, 0, 0);
+            model.rotate(-1, 0, 0);
         }
     },
     ROTATING_Y_POS {

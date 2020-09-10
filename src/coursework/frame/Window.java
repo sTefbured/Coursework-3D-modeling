@@ -48,16 +48,13 @@ public class Window extends JFrame {
                     case KeyEvent.VK_S:
                         return ModelCondition.ROTATING_X_NEG;
                     case KeyEvent.VK_A:
-                        return ModelCondition.ROTATING_Y_NEG;
-                    case KeyEvent.VK_D:
                         return ModelCondition.ROTATING_Y_POS;
+                    case KeyEvent.VK_D:
+                        return ModelCondition.ROTATING_Y_NEG;
                     case KeyEvent.VK_E:
                         return ModelCondition.ROTATING_Z_NEG;
                     case KeyEvent.VK_Q:
                         return ModelCondition.ROTATING_Z_POS;
-                    case KeyEvent.VK_T:
-                        isInTypeMode = !isInTypeMode;
-                        // Falls down to default
                     default:
                         throw new ConditionNotFoundException();
                 }
