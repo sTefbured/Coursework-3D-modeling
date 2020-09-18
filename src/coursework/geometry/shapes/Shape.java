@@ -160,16 +160,4 @@ public abstract class Shape {
                 degY * Math.PI / 180.0,
                 degZ * Math.PI / 180.0);
     }
-
-    public Vertex[] getVertices() {
-        return vertices;
-    }
-
-    public Edge[] getEdges() {
-        return edges;
-    }
-
-    public Face[] getFaces() {
-        return faces;
-    }
 }

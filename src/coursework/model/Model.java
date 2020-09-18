@@ -74,7 +74,11 @@ public class Model {
         }
     }
 
-    public Shape[] getShapes() {
-        return shapes;
+    public void activateCondition(ModelCondition condition) {
+        conditions |= condition.getValue();
+    }
+
+    public void deactivateCondition(ModelCondition condition) {
+        conditions ^= condition.getValue();
     }
 }

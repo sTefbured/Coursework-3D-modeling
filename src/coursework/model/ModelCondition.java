@@ -110,6 +110,28 @@ public enum ModelCondition {
         public void performAction(Model model) {
             model.rotate(0, 0, -1);
         }
+    },
+    MOVING_Z_POS {
+        @Override
+        public short getValue() {
+            return 1024;
+        }
+
+        @Override
+        public void performAction(Model model) {
+            model.transit(0, 0, 5);
+        }
+    },
+    MOVING_Z_NEG {
+        @Override
+        public short getValue() {
+            return 2048;
+        }
+
+        @Override
+        public void performAction(Model model) {
+            model.transit(0, 0, -5);
+        }
     };
 
     public abstract short getValue();

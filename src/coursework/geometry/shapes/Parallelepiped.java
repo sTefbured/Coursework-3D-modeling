@@ -18,10 +18,12 @@ public class Parallelepiped extends Shape {
                 new Edge(vertices[1], vertices[2]),
                 new Edge(vertices[2], vertices[3]),
                 new Edge(vertices[3], vertices[0]),
+
                 new Edge(vertices[4], vertices[5]), // Back edges
                 new Edge(vertices[5], vertices[6]),
                 new Edge(vertices[6], vertices[7]),
                 new Edge(vertices[7], vertices[4]),
+
                 new Edge(vertices[0], vertices[7]), // Middle edges
                 new Edge(vertices[1], vertices[6]),
                 new Edge(vertices[2], vertices[5]),

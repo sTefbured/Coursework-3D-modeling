@@ -14,8 +14,4 @@ public class Face {
             edge.draw(graphics2D);
         }
     }
-
-    public Edge[] getEdges() {
-        return edges;
-    }
 }
