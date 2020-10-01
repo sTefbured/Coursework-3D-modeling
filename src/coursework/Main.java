@@ -61,7 +61,7 @@ public class Main {
 
     //TODO: maybe add menu and exit button to remove the warning
     private static void runMainLoop() {
-        int requiredFps = 500;
+        int requiredFps = 60;
         int updatesPerSecond = 200;
         int ticksCount = 0;
         int framesCount = 0;

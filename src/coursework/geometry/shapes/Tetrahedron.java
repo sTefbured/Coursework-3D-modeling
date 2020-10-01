@@ -26,7 +26,7 @@ public class Tetrahedron extends Shape {
     @Override
     protected void initializeFaces() {
         faces = new Face[] {
-                new Face(edges[0], edges[1], edges[2]),
+                new Face(edges[0], edges[4], edges[2]),
                 new Face(edges[0], edges[4], edges[3]),
                 new Face(edges[3], edges[5], edges[2]),
                 new Face(edges[4], edges[1], edges[5])

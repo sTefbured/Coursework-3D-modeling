@@ -11,7 +11,6 @@ import java.util.EnumSet;
 // TODO: PAY ATTENTION TO THE TETRAHEDRON. MAYBE SHOULD
 //  DECLARE SOME POINTS IN OTHER WAY
 //  (IF THAT, MUST ALSO REFACTOR 'Tetrahedron' CLASS).
-
 public class Model {
     private final Shape[] shapes;
 
@@ -50,19 +49,19 @@ public class Model {
 
     public void transit(int dx, int dy, int dz) {
         for (Shape shape : shapes) {
-            shape.transit(dx, dy, dz);
+            Transformations.transit(shape, dx, dy, dz);
         }
     }
 
     public void scale(double a, double b, double c) {
         for (Shape shape : shapes) {
-            shape.scale(a, b, c);
+            Transformations.scale(shape, a, b, c);
         }
     }
 
     public void rotate(double degX, double degY, double degZ) {
         for (Shape shape : shapes) {
-            shape.rotateDeg(degX, degY, degZ);
+            Transformations.rotateDeg(shape, degX, degY, degZ);
         }
     }
 

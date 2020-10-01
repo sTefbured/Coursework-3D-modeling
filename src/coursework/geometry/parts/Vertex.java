@@ -1,48 +1,51 @@
 package coursework.geometry.parts;
 
-// TODO: change "one" to other name
 public class Vertex {
-    private double x;
-    private double y;
-    private double z;
-    private double one;
+    private final double[][] coordinates;
 
+    //TODO: ask about "one", maybe delete it from constructor's params
     public Vertex(double x, double y, double z, double one) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.one = one;
+        coordinates = new double[][] {
+                {x},
+                {y},
+                {z},
+                {1}
+        };
     }
 
     public double getX() {
-        return x;
+        return coordinates[0][0];
     }
 
     public void setX(double x) {
-        this.x = x;
+        coordinates[0][0] = x;
     }
 
     public double getY() {
-        return y;
+        return coordinates[1][0];
     }
 
     public void setY(double y) {
-        this.y = y;
+        coordinates[1][0] = y;
     }
 
     public double getZ() {
-        return z;
+        return coordinates[2][0];
     }
 
     public void setZ(double z) {
-        this.z = z;
+        coordinates[2][0] = z;
+    }
+
+    public double[][] getCoordinates() {
+        return coordinates;
     }
 
     public double getOne() {
-        return one;
+        return coordinates[3][0];
     }
 
     public void setOne(double one) {
-        this.one = one;
+        coordinates[3][0] = one;
     }
 }
