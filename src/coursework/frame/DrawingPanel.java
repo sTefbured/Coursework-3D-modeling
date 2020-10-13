@@ -5,9 +5,10 @@ import coursework.Main;
 import javax.swing.*;
 import java.awt.*;
 
-class MainPanel extends JPanel {
-    public MainPanel() {
+class DrawingPanel extends JPanel {
+    DrawingPanel() {
         super();
+        setVisible(true);
     }
 
     @Override

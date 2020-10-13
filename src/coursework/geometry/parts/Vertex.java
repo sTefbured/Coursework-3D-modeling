@@ -3,13 +3,22 @@ package coursework.geometry.parts;
 public class Vertex {
     private final double[][] coordinates;
 
-    //TODO: ask about "one", maybe delete it from constructor's params
-    public Vertex(double x, double y, double z, double one) {
+    public Vertex(double x, double y, double z, double parameter) {
         coordinates = new double[][] {
                 {x},
                 {y},
                 {z},
-                {1}
+                {parameter}
+        };
+    }
+
+    public Vertex(Vertex vertex) {
+        double[][] coordinates = vertex.getCoordinates();
+        this.coordinates = new double[][] {
+                {coordinates[0][0]},
+                {coordinates[1][0]},
+                {coordinates[2][0]},
+                {coordinates[3][0]}
         };
     }
 
@@ -41,11 +50,11 @@ public class Vertex {
         return coordinates;
     }
 
-    public double getOne() {
+    public double getParameter() {
         return coordinates[3][0];
     }
 
-    public void setOne(double one) {
-        coordinates[3][0] = one;
+    public void setParameter(double parameter) {
+        coordinates[3][0] = parameter;
     }
 }

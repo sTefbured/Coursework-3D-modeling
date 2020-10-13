@@ -1,13 +1,12 @@
 package coursework.geometry.shapes;
 
-import coursework.exceptions.MatricesMismatchException;
 import coursework.exceptions.WrongCountException;
 import coursework.geometry.parts.*;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public abstract class Shape {
+    protected final Vertex[] beginValues;
     protected Vertex[] vertices;
     protected Edge[] edges;
     protected Face[] faces;
@@ -18,7 +17,14 @@ public abstract class Shape {
             throw new WrongCountException("Wrong vertices count. " +
                     "Correct count is " + verticesCount + ".");
         }
-        this.vertices = Arrays.copyOf(vertices, vertices.length);
+        this.vertices = new Vertex[verticesCount];
+        for (int i = 0; i < verticesCount; i++) {
+            this.vertices[i] = new Vertex(vertices[i]);
+        }
+        this.beginValues = new Vertex[verticesCount];
+        for (int i = 0; i < verticesCount; i++) {
+            this.beginValues[i] = new Vertex(vertices[i]);
+        }
         initializeEdges();
         initializeFaces();
     }

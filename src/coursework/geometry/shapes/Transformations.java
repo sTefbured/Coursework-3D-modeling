@@ -4,6 +4,15 @@ import coursework.exceptions.MatricesMismatchException;
 import coursework.geometry.parts.Vertex;
 
 public class Transformations {
+    public static void returnToInitialValues(Shape shape) {
+        for (int i = 0; i < shape.beginValues.length; i++) {
+            Vertex vertex = shape.beginValues[i];
+            shape.vertices[i].setX(vertex.getX());
+            shape.vertices[i].setY(vertex.getY());
+            shape.vertices[i].setZ(vertex.getZ());
+        }
+    }
+
     private static double[][] multiply(double[][] matrix1, double[][] matrix2)
             throws MatricesMismatchException {
         if (matrix1[0].length != matrix2.length) {
@@ -35,7 +44,7 @@ public class Transformations {
         dest.setX(result[0][0]);
         dest.setY(result[1][0]);
         dest.setZ(result[2][0]);
-        dest.setOne(result[3][0]);
+        dest.setParameter(result[3][0]);
     }
 
     public static void transit(Shape target, double dx, double dy, double dz) {
@@ -112,5 +121,61 @@ public class Transformations {
                   degX * Math.PI / 180.0,
                   degY * Math.PI / 180.0,
                   degZ * Math.PI / 180.0);
+    }
+
+    public static void makeProjectionX(Shape target) {
+        double[][] matrix = {
+                {0, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+        returnToInitialValues(target);
+        for (Vertex vertex : target.vertices) {
+            multiply(vertex, matrix);
+        }
+        rotateDeg(target, 0, -90, 0);
+    }
+
+    public static void makeProjectionY(Shape target) {
+        double[][] matrix = {
+                {1, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
+        };
+        returnToInitialValues(target);
+        for (Vertex vertex : target.vertices) {
+            multiply(vertex, matrix);
+        }
+        rotateDeg(target, -90, 0, 0);
+    }
+
+    public static void makeProjectionZ(Shape target) {
+        long time = System.nanoTime();
+        double[][] matrix = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 1}
+        };
+        returnToInitialValues(target);
+        for (Vertex vertex : target.vertices) {
+            multiply(vertex, matrix);
+        }
+        System.out.println("TIME: " + (System.nanoTime() - time));
+    }
+
+    //FIXME: fix
+    public static void makePerspective(Shape target) {
+        double[][] matrix = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 1.0 / 3000, 0}
+        };
+        for (Vertex vertex : target.vertices) {
+            multiply(vertex, matrix);
+        }
     }
 }

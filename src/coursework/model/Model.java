@@ -65,6 +65,37 @@ public class Model {
         }
     }
 
+    public void projectionX() {
+        for (Shape shape : shapes) {
+            Transformations.makeProjectionX(shape);
+        }
+    }
+
+    public void projectionY() {
+        for (Shape shape : shapes) {
+            Transformations.makeProjectionY(shape);
+        }
+    }
+
+    public void projectionZ() {
+        for (Shape shape : shapes) {
+            Transformations.makeProjectionZ(shape);
+        }
+    }
+
+    public void returnToInitialValues() {
+        for (Shape shape : shapes) {
+            Transformations.returnToInitialValues(shape);
+        }
+    }
+
+    //FIXME: fix
+    public void makePerspective() {
+        for (Shape shape : shapes) {
+            Transformations.makePerspective(shape);
+        }
+    }
+
     public void update() {
         for (ModelCondition condition : EnumSet.allOf(ModelCondition.class)) {
             if ((conditions & condition.getValue()) == condition.getValue()) {

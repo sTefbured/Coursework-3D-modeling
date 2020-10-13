@@ -7,6 +7,7 @@ import coursework.model.Model;
 public class Main {
     private static Model model;
     private static Window window;
+    private static boolean isRunning;
 
     public static void main(String[] args) {
         if (initializeModel(args) != 0) {
@@ -14,6 +15,9 @@ public class Main {
         }
         window = new Window("3d shape");
         runMainLoop();
+        window.setVisible(false);
+        window.dispose();
+        System.exit(0);
     }
 
     private static int initializeModel(String[] args) {
@@ -59,7 +63,6 @@ public class Main {
         return 0;
     }
 
-    //TODO: maybe add menu and exit button to remove the warning
     private static void runMainLoop() {
         int requiredFps = 60;
         int updatesPerSecond = 200;
@@ -71,7 +74,8 @@ public class Main {
         long deltaFps = 0;
         long deltaUps = 0;
         long oneSecond = 1000000000;
-        while (true) {
+        isRunning = true;
+        while (isRunning) {
             if (deltaUps >= oneSecond / updatesPerSecond) {
                 model.update();
                 ticksCount++;
@@ -94,6 +98,10 @@ public class Main {
                 newSecondStart = System.nanoTime();
             }
         }
+    }
+
+    public static void setRunning(boolean isRunning) {
+        Main.isRunning = isRunning;
     }
 
     public static Model getModel() {
