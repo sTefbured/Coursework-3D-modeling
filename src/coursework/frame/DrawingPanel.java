@@ -6,8 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 class DrawingPanel extends JPanel {
-    DrawingPanel() {
+    DrawingPanel(Dimension size) {
         super();
+        setPreferredSize(size);
         setVisible(true);
     }
 

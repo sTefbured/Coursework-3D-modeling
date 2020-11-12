@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
-    public MenuPanel() {
+    public MenuPanel(Window window, Dimension size) {
         super();
-        setLayout(new FlowLayout());
+        setPreferredSize(size);
         Menu menu = new Menu();
+        menu.setPreferredSize(size);
         add(menu);
         setVisible(true);
     }

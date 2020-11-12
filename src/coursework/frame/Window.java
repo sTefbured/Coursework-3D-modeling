@@ -4,21 +4,32 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Window extends JFrame {
-    private final DrawingPanel drawingPanel;
+    private DrawingPanel drawingPanel;
+    private MenuPanel menuPanel;
 
     public Window(String title) {
         super(title);
+        Dimension screenSize = getToolkit().getScreenSize();
+        Dimension size = new Dimension(3 * screenSize.width / 4,
+                                       3 * screenSize.height / 4);
+        setSize(size);
+        addPanels();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(getToolkit().getScreenSize());
         setLocationRelativeTo(null);
-        getContentPane().setLayout(new GridLayout(1, 2, 0, 0));
-        drawingPanel = new DrawingPanel();
-        drawingPanel.setSize(getWidth() / 2, getHeight() / 2);
-        MenuPanel menuPanel = new MenuPanel();
-        menuPanel.setSize(getWidth() / 2, getHeight() / 2);
-        getContentPane().add(drawingPanel);
-        getContentPane().add(menuPanel);
+        setResizable(false);
         setVisible(true);
+    }
+
+    private void addPanels() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(1, 2, 10, 10));
+        Dimension halfWindowSize =
+                new Dimension(getSize().width / 2 - 25, getSize().height);
+        drawingPanel = new DrawingPanel(halfWindowSize);
+        menuPanel = new MenuPanel(this, halfWindowSize);
+        mainPanel.add(drawingPanel);
+        mainPanel.add(menuPanel);
+        add(mainPanel);
     }
 
     @Override
@@ -29,5 +40,9 @@ public class Window extends JFrame {
 
     public JPanel getDrawingPanel() {
         return drawingPanel;
+    }
+
+    public JPanel getMenuPanel() {
+        return menuPanel;
     }
 }
