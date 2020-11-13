@@ -60,6 +60,9 @@ public class Transformations {
     }
 
     public static void scale(Shape target, double a, double b, double c) {
+        a = getCorrectScaleValue(a);
+        b = getCorrectScaleValue(b);
+        c = getCorrectScaleValue(c);
         double[][] scaleMatrix = {
                 {a, 0, 0, 0},
                 {0, b, 0, 0},
@@ -71,10 +74,17 @@ public class Transformations {
         }
     }
 
+    //TODO: find correct scale limits
+    private static double getCorrectScaleValue(double scale) {
+        if (scale == 0) {
+            return 1;
+        }
+        return scale;
+    }
+
     private static double[][] createRotationMatrix(double radX,
                                                    double radY,
-                                                   double radZ)
-            throws MatricesMismatchException{
+                                                   double radZ) {
         double[][] matrixX = {
                 {1, 0, 0, 0},
                 {0, Math.cos(radX), -Math.sin(radX), 0},
@@ -93,8 +103,13 @@ public class Transformations {
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
-        double[][] buf = multiply(matrixX, matrixY);
-        return multiply(buf, matrixZ);
+        try {
+            double[][] buf = multiply(matrixX, matrixY);
+            return multiply(buf, matrixZ);
+        } catch (MatricesMismatchException exception) {
+            System.out.println(exception.getMessage());
+            return null;
+        }
     }
 
     public static void rotateRad(Shape target,
@@ -102,12 +117,7 @@ public class Transformations {
                                  double radY,
                                  double radZ) {
         double[][] rotationMatrix;
-        try {
-            rotationMatrix = createRotationMatrix(radX, radY, radZ);
-        } catch (MatricesMismatchException exception) {
-            System.out.println(exception.getMessage());
-            return;
-        }
+        rotationMatrix = createRotationMatrix(radX, radY, radZ);
         for (Vertex vertex : target.vertices) {
             multiply(vertex, rotationMatrix);
         }
@@ -118,53 +128,51 @@ public class Transformations {
                                  double degY,
                                  double degZ) {
         rotateRad(target,
-                  degX * Math.PI / 180.0,
-                  degY * Math.PI / 180.0,
-                  degZ * Math.PI / 180.0);
+                degX * Math.PI / 180.0,
+                degY * Math.PI / 180.0,
+                degZ * Math.PI / 180.0);
     }
 
-    public static void makeProjectionX(Shape target) {
-        double[][] matrix = {
-                {0, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
-        };
-        returnToInitialValues(target);
-        for (Vertex vertex : target.vertices) {
-            multiply(vertex, matrix);
-        }
-        rotateDeg(target, 0, -90, 0);
-    }
-
-    public static void makeProjectionY(Shape target) {
-        double[][] matrix = {
-                {1, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
-        };
-        returnToInitialValues(target);
-        for (Vertex vertex : target.vertices) {
-            multiply(vertex, matrix);
-        }
-        rotateDeg(target, -90, 0, 0);
-    }
-
-    public static void makeProjectionZ(Shape target) {
-        long time = System.nanoTime();
-        double[][] matrix = {
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 1}
-        };
-        returnToInitialValues(target);
-        for (Vertex vertex : target.vertices) {
-            multiply(vertex, matrix);
-        }
-        System.out.println("TIME: " + (System.nanoTime() - time));
-    }
+    //TODO: maybe delete the comment below
+//    public static void getProjectionXY(Shape target) {
+//        long time = System.nanoTime();
+//        double[][] matrix = {
+//                {1, 0, 0, 0},
+//                {0, 1, 0, 0},
+//                {0, 0, 0, 0},
+//                {0, 0, 0, 1}
+//        };
+//        returnToInitialValues(target);
+//        for (Vertex vertex : target.vertices) {
+//            multiply(vertex, matrix);
+//        }
+//        System.out.println("TIME: " + (System.nanoTime() - time));
+//    }
+//
+//    public static void getProjectionXZ(Shape target) {
+//        double[][] matrix = {
+//                {1, 0, 0, 0},
+//                {0, 0, 0, 0},
+//                {0, 0, 1, 0},
+//                {0, 0, 0, 1}
+//        };
+//        returnToInitialValues(target);
+//        for (Vertex vertex : target.vertices) {
+//            multiply(vertex, matrix);
+//        }
+//    }
+//
+//    public static void getProjectionZY(Shape target) {
+//        double[][] matrix = {
+//                {0, 0, 0, 0},
+//                {0, 1, 0, 0},
+//                {0, 0, 1, 0},
+//                {0, 0, 0, 1}
+//        };
+//        for (Vertex vertex : target.vertices) {
+//            multiply(vertex, matrix);
+//        }
+//    }
 
     //FIXME: fix
     public static void makePerspective(Shape target) {

@@ -1,5 +1,6 @@
 package coursework.model;
 
+import coursework.geometry.parts.Projections;
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
 import coursework.geometry.shapes.*;
@@ -11,13 +12,16 @@ import java.util.EnumSet;
 // TODO: PAY ATTENTION TO THE TETRAHEDRON. MAYBE SHOULD
 //  DECLARE SOME POINTS IN OTHER WAY
 //  (IF THAT, MUST ALSO REFACTOR 'Tetrahedron' CLASS).
-public class Model {
+public class Model implements Projections {
+    private int currentProjection;
     private final Shape[] shapes;
 
     public short conditions;
 
+    //FIXME: maybe shouldn't throw an exception
     public Model(double a, double b, double c, double h, double d)
             throws WrongCountException {
+        currentProjection = XOY_PROJECTION;
         Shape parallelepiped = new Parallelepiped(
                 new Vertex(-a / 2, 0, -c / 2, 1),
                 new Vertex(-a / 2, b, -c / 2, 1),
@@ -43,15 +47,16 @@ public class Model {
 
     public void draw(Graphics2D graphics2D) {
         for (Shape shape : shapes) {
-            shape.draw(graphics2D);
+            shape.draw(graphics2D, currentProjection);
         }
     }
 
-    public void transit(int dx, int dy, int dz) {
+    public void transit(double dx, double dy, double dz) {
         for (Shape shape : shapes) {
             Transformations.transit(shape, dx, dy, dz);
         }
     }
+
 
     public void scale(double a, double b, double c) {
         for (Shape shape : shapes) {
@@ -65,23 +70,24 @@ public class Model {
         }
     }
 
-    public void projectionX() {
-        for (Shape shape : shapes) {
-            Transformations.makeProjectionX(shape);
-        }
-    }
-
-    public void projectionY() {
-        for (Shape shape : shapes) {
-            Transformations.makeProjectionY(shape);
-        }
-    }
-
-    public void projectionZ() {
-        for (Shape shape : shapes) {
-            Transformations.makeProjectionZ(shape);
-        }
-    }
+    //TODO: maybe delete the comment below
+//    public void projectionX() {
+//        for (Shape shape : shapes) {
+//            Transformations.пуеProjectionX(shape);
+//        }
+//    }
+//
+//    public void projectionY() {
+//        for (Shape shape : shapes) {
+//            Transformations.makeProjectionY(shape);
+//        }
+//    }
+//
+//    public void projectionZ() {
+//        for (Shape shape : shapes) {
+//            Transformations.makeProjectionZ(shape);
+//        }
+//    }
 
     public void returnToInitialValues() {
         for (Shape shape : shapes) {
@@ -110,5 +116,13 @@ public class Model {
 
     public void deactivateCondition(ModelCondition condition) {
         conditions ^= condition.getValue();
+    }
+
+    public int getCurrentProjection() {
+        return currentProjection;
+    }
+
+    public void setCurrentProjection(int currentProjection) {
+        this.currentProjection = currentProjection;
     }
 }

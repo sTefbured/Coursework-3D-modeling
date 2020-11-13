@@ -33,9 +33,9 @@ public abstract class Shape {
 
     protected abstract void initializeFaces();
 
-    public void draw(Graphics2D graphics2D) {
+    public void draw(Graphics2D graphics2D, int projectionMode) {
         for (Face face : faces) {
-            face.draw(graphics2D);
+            face.draw(graphics2D, projectionMode);
         }
     }
 }
