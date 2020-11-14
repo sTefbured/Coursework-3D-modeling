@@ -1,17 +1,18 @@
-package coursework.frame.menus.menuBar;
+package coursework.frame.menus.menuBar.menus;
 
 import coursework.Main;
-import coursework.frame.ParametersDialog;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class ModelMenu extends JMenu {
-    private JMenuItem parametersItem;
-    private JDialog parametersDialog;
+    private final JMenuItem parametersItem;
 
     public ModelMenu() {
         super("Model");
         parametersItem = new JMenuItem("Set parameters");
+        setMnemonic(KeyEvent.VK_M);
+        parametersItem.setMnemonic(KeyEvent.VK_P);
         addListeners();
         add(parametersItem);
     }

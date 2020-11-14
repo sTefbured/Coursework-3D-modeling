@@ -1,6 +1,7 @@
 package coursework.frame.menus.tabbedMenu.panels;
 
 import coursework.Main;
+import coursework.frame.menus.utils.FieldParser;
 import coursework.geometry.parts.Projections;
 
 import javax.swing.*;
@@ -98,30 +99,16 @@ public class BasicTransformationsPanel extends MenuPagePanel
     }
 
     private void addButtonListener() {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                double[] deltas = parseFieldsArray(transitionFields);
-                double[] angles = parseFieldsArray(rotationFields);
-                double[] scales = parseFieldsArray(scalingFields);
-                Main.getModel().transit(deltas[0], deltas[1], deltas[2]);
-                Main.getModel().rotate(angles[0], angles[1], angles[2]);
-                Main.getModel().scale(scales[0], scales[1], scales[2]);
-                Main.getModel().setCurrentProjection(getProjectionIndex());
-            }
+        button.addActionListener(e -> {
+            double[] deltas = FieldParser.parseFieldsArray(transitionFields, 0);
+            double[] angles = FieldParser.parseFieldsArray(rotationFields, 0);
+            double[] scales = FieldParser.parseFieldsArray(scalingFields, 0);
+            Main.getModel().transit(deltas[0], deltas[1], deltas[2]);
+            Main.getModel().rotate(angles[0], angles[1], angles[2]);
+            Main.getModel().scale(scales[0], scales[1], scales[2]);
+            Main.getModel().setCurrentProjection(getProjectionIndex());
+            Main.getWindow().repaint();
         });
-    }
-
-    private double[] parseFieldsArray(JTextField[] fields) {
-        double[] outValues = new double[fields.length];
-        for (int i = 0; i < outValues.length; i++) {
-            try {
-                outValues[i] = Double.parseDouble(fields[i].getText());
-            } catch (NumberFormatException exception) {
-                outValues[i] = 0;
-            }
-        }
-        return outValues;
     }
 
     private int getProjectionIndex() {

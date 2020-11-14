@@ -1,10 +1,13 @@
-package coursework.frame;
+package coursework.frame.dialogs;
 
 import coursework.Main;
+import coursework.frame.Window;
 import coursework.frame.menus.utils.FieldParser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ParametersDialog extends JDialog {
     private final double[] defaultParameters = {150, 190, 250, 300, 350};
@@ -20,6 +23,7 @@ public class ParametersDialog extends JDialog {
         initializeLabels();
         initializeButton();
         addComponents();
+        addListener();
         setResizable(false);
         pack();
         setLocationRelativeTo(null);
@@ -40,27 +44,21 @@ public class ParametersDialog extends JDialog {
 
     private void initializeLabels() {
         labels = new JLabel[]{
-                new JLabel("Box width"),
-                new JLabel("Box height"),
-                new JLabel("Box depth"),
+                new JLabel("Parallelepiped's width"),
+                new JLabel("Parallelepiped's height"),
+                new JLabel("Parallelepiped's depth"),
                 new JLabel("Tetrahedron's side length"),
                 new JLabel("Tetrahedron's height")
         };
     }
 
-    private void initializeButton() {
+    private synchronized void initializeButton() {
         button = new JButton("Build");
         button.addActionListener(e -> {
             double[] parameters = FieldParser.parseFieldsArray(fields, defaultParameters);
             setVisible(false);
             Main.createModel(parameters);
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Main.runMainLoop();
-                }
-            });
-            thread.start();
+            Main.getWindow().repaint();
         });
     }
 
@@ -81,5 +79,18 @@ public class ParametersDialog extends JDialog {
         constraints.gridy = fields.length;
         constraints.gridwidth = 2;
         add(button, constraints);
+    }
+
+    private void addListener() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                if (Main.getModel() == null) {
+                    Main.createModel(defaultParameters);
+                    Main.getWindow().repaint();
+                }
+            }
+        });
     }
 }
