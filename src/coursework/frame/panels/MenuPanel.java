@@ -1,6 +1,6 @@
-package coursework.frame;
+package coursework.frame.panels;
 
-import coursework.frame.menu.Menu;
+import coursework.frame.menus.tabbedMenu.Menu;
 
 import javax.swing.*;
 import java.awt.*;

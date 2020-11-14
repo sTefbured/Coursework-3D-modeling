@@ -1,10 +1,12 @@
-package coursework.frame.menu.panels;
+package coursework.frame.menus.tabbedMenu.panels;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MenuPagePanel extends JPanel {
     protected final Font font;
+    protected static final JButton button = new JButton("Repaint");
+
     private int position;
     private int maxWidth;
 

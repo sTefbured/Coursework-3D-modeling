@@ -1,7 +1,7 @@
-package coursework.frame.menu;
+package coursework.frame.menus.tabbedMenu;
 
-import coursework.frame.menu.panels.BasicTransformationsPanel;
-import coursework.frame.menu.panels.ProjectionsPanel;
+import coursework.frame.menus.tabbedMenu.panels.BasicTransformationsPanel;
+import coursework.frame.menus.tabbedMenu.panels.ProjectionsPanel;
 
 import javax.swing.*;
 

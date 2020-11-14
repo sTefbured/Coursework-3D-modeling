@@ -1,4 +1,4 @@
-package coursework.frame.menu.panels;
+package coursework.frame.menus.tabbedMenu.panels;
 
 import coursework.Main;
 import coursework.geometry.parts.Projections;
@@ -16,7 +16,6 @@ public class BasicTransformationsPanel extends MenuPagePanel
     private final JTextField[] scalingFields;
     private final JRadioButton[] projectionsButtons;
     private final ButtonGroup projectionsButtonsGroup;
-    private final JButton button;
 
     public BasicTransformationsPanel() {
         super();
@@ -33,7 +32,6 @@ public class BasicTransformationsPanel extends MenuPagePanel
         for (JRadioButton button : projectionsButtons) {
             projectionsButtonsGroup.add(button);
         }
-        button = new JButton("Redraw");
         addButtonListener();
         button.setPreferredSize(new Dimension(300, 100));
         addSections();
@@ -90,7 +88,7 @@ public class BasicTransformationsPanel extends MenuPagePanel
     }
 
     private void addOrthometricProjectionsSection() {
-        JLabel title = new JLabel("Orthometric projections");
+        JLabel title = new JLabel("Orthographic projections");
         JPanel panel = new JPanel(new GridLayout(1, 5, 70, 0));
         for (JRadioButton projectionsButton : projectionsButtons) {
             projectionsButton.setFont(font);

@@ -1,5 +1,8 @@
 package coursework.frame;
 
+import coursework.frame.menus.menuBar.MenuBar;
+import coursework.frame.panels.*;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +17,7 @@ public class Window extends JFrame {
                                        3 * screenSize.height / 4);
         setSize(size);
         addPanels();
+        setJMenuBar(new MenuBar());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
