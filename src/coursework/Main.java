@@ -15,6 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            JFrame.setDefaultLookAndFeelDecorated(true);
             window = new Window("3d shape");
             parametersDialog = new ParametersDialog(window);
             parametersDialog.setVisible(true);

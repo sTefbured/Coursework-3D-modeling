@@ -21,7 +21,7 @@ public class Model implements Projections {
     //FIXME: maybe shouldn't throw an exception
     public Model(double a, double b, double c, double h, double d)
             throws WrongCountException {
-        currentProjection = XOY_PROJECTION;
+        currentProjection = FRONT_PROJECTION;
         Shape parallelepiped = new Parallelepiped(
                 new Vertex(-a / 2, 0, -c / 2, 1),
                 new Vertex(-a / 2, b, -c / 2, 1),

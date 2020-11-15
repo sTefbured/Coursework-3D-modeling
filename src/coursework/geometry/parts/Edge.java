@@ -19,13 +19,13 @@ public class Edge implements Projections {
         int xCenter = Main.getWindow().getDrawingPanel().getWidth() / 2;
         int yCenter = Main.getWindow().getDrawingPanel().getHeight() / 2;
         switch (projectionMode) {
-            case XOZ_PROJECTION -> {
+            case UP_PROJECTION -> {
                 coordinate1 = (int) vertices[0].getX();
                 coordinate2 = (int) vertices[0].getZ();
                 coordinate3 = (int) vertices[1].getX();
                 coordinate4 = (int) vertices[1].getZ();
             }
-            case ZOY_PROJECTION -> {
+            case SIDE_PROJECTION -> {
                 coordinate1 = (int) vertices[0].getZ();
                 coordinate2 = (int) vertices[0].getY();
                 coordinate3 = (int) vertices[1].getZ();

@@ -5,14 +5,13 @@ import java.awt.*;
 
 public class MenuPagePanel extends JPanel {
     protected final Font font;
-    protected static final JButton button = new JButton("Repaint");
 
     private int position;
     private int maxWidth;
 
     public MenuPagePanel() {
         super();
-        font = new Font(Font.MONOSPACED, Font.BOLD, 13);
+        font = new Font(Font.MONOSPACED, Font.BOLD, 19);
         position = 0;
         maxWidth = 0;
         setLayout(new GridBagLayout());
@@ -41,6 +40,9 @@ public class MenuPagePanel extends JPanel {
             components[i][0].setFont(font);
             add(components[i][0], labelConstraints);
 
+            if (components[i][1] == null) {
+                continue;
+            }
             GridBagConstraints fieldConstraints = getFieldConstraints(i * 2 + 1, position);
             components[i][1].setFont(font);
             add(components[i][1], fieldConstraints);
@@ -71,7 +73,7 @@ public class MenuPagePanel extends JPanel {
         labelConstraints.insets = new Insets(0, 0, 30, 0);
         labelConstraints.gridx = xPos;
         labelConstraints.gridy = yPos;
-        labelConstraints.anchor = GridBagConstraints.WEST;
+        labelConstraints.anchor = GridBagConstraints.EAST;
         return labelConstraints;
     }
 
