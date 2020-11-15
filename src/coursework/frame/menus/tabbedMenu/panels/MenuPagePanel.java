@@ -31,7 +31,10 @@ public class MenuPagePanel extends JPanel {
     }
 
     public void addSection(JLabel title, JComponent[][] components) {
-        addTitle(title);
+        if (title != null) {
+            addTitle(title);
+        }
+
         if (maxWidth < components.length * 2) {
             maxWidth = components.length * 2;
         }

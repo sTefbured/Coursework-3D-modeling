@@ -1,12 +1,10 @@
 package coursework.frame.menus.tabbedMenu.panels;
 
 import coursework.Main;
-import coursework.frame.Window;
+import coursework.frame.menus.utils.FieldParser;
 import coursework.geometry.parts.Projections;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ProjectionsPanel extends MenuPagePanel
         implements Projections {
@@ -15,6 +13,8 @@ public class ProjectionsPanel extends MenuPagePanel
     private JTextField[] perspectiveFields;
     private JToggleButton[] projectionsButtons;
     private ButtonGroup projectionsButtonsGroup;
+
+    private static ProjectionsPanel instance;
 
     //TODO: finish isometric projection
     public ProjectionsPanel() {
@@ -26,6 +26,7 @@ public class ProjectionsPanel extends MenuPagePanel
         initializePerspectiveFields();
 
         addSections();
+        instance = this;
     }
 
     private void initializeButtons() {
@@ -46,9 +47,9 @@ public class ProjectionsPanel extends MenuPagePanel
     private void addProjectionButtonListener(JToggleButton projectionButton) {
         projectionButton.addActionListener(e -> {
             JToggleButton button = (JToggleButton) e.getSource();
-            for (int j = 0; j < projectionsButtons.length; j++) {
-                if (button.equals(projectionsButtons[j])) {
-                    Main.getModel().setCurrentProjection(j);
+            for (int i = 0; i < projectionsButtons.length; i++) {
+                if (button.equals(projectionsButtons[i])) {
+                    Main.getModel().setCurrentProjection(i);
                     Main.getWindow().repaint();
                     break;
                 }
@@ -135,12 +136,19 @@ public class ProjectionsPanel extends MenuPagePanel
     private void addPerspectiveSection() {
         JLabel title = new JLabel("Perspective");
         JComponent[][] components = new JComponent[][]{
-                {new JLabel("l"), perspectiveFields[0]},
-                {new JLabel("\u03B1"), perspectiveFields[1]},
-                {new JLabel("\u03B1"), perspectiveFields[2]},
-                {new JLabel("\u03B1"), perspectiveFields[3]},
-//                {projectionsButtons[PERSPECTIVE_PROJECTION], null}
+                {new JLabel("d"), perspectiveFields[0]},
+                {new JLabel("\u03C1"), perspectiveFields[1]},
+        };
+        JComponent[][] components1 = new JComponent[][] {
+                {new JLabel("\u03C6"), perspectiveFields[2]},
+                {new JLabel("\u03B8"), perspectiveFields[3]}
         };
         addSection(title, components);
+        addSection(null, components1);
+        addCenteredSection(null, projectionsButtons[PERSPECTIVE_PROJECTION]);
+    }
+
+    public static double[] getAxonometricValues() {
+        return FieldParser.parseFieldsArray(instance.axonometryFields, 0);
     }
 }

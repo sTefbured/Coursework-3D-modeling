@@ -1,5 +1,7 @@
 package coursework.model;
 
+import coursework.Main;
+import coursework.frame.menus.tabbedMenu.panels.ProjectionsPanel;
 import coursework.geometry.parts.Projections;
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
@@ -46,6 +48,11 @@ public class Model implements Projections {
     }
 
     public void draw(Graphics2D graphics2D) {
+        if (currentProjection == AXONOMETRIC_PROJECTION) {
+            double[] values = ProjectionsPanel.getAxonometricValues();
+            returnToInitialValues();
+            rotate(values[0], values[1], 0);
+        }
         for (Shape shape : shapes) {
             shape.draw(graphics2D, currentProjection);
         }
@@ -90,6 +97,7 @@ public class Model implements Projections {
 //    }
 
     public void returnToInitialValues() {
+        currentProjection = FRONT_PROJECTION;
         for (Shape shape : shapes) {
             Transformations.returnToInitialValues(shape);
         }

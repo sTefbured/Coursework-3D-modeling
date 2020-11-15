@@ -40,5 +40,7 @@ public class Edge implements Projections {
         }
         graphics2D.drawLine(coordinate1 + xCenter, -coordinate2 + yCenter,
                 coordinate3 + xCenter, -coordinate4 + yCenter);
+        graphics2D.fillOval(coordinate1 + xCenter - 5, -coordinate2 + yCenter - 5, 10, 10);
+        graphics2D.fillOval(coordinate3 + xCenter - 5, -coordinate4 + yCenter - 5, 10, 10);
     }
 }
