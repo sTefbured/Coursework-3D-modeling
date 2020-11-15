@@ -3,7 +3,7 @@ package coursework.frame.menus.tabbedMenu.panels;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuPagePanel extends JPanel {
+public abstract class MenuPagePanel extends JPanel {
     protected final Font font;
 
     private int position;
@@ -87,4 +87,6 @@ public class MenuPagePanel extends JPanel {
         fieldConstraints.gridy = yPos;
         return fieldConstraints;
     }
+
+    public abstract void returnToInitialValues();
 }

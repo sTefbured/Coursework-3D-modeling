@@ -42,6 +42,11 @@ public class Window extends JFrame {
         drawingPanel.repaint();
     }
 
+    public void returnToInitialValues() {
+        menuPanel.returnToInitialValues();
+        drawingPanel.returnToInitialValues();
+    }
+
     public JPanel getDrawingPanel() {
         return drawingPanel;
     }

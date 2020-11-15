@@ -22,4 +22,8 @@ public class DrawingPanel extends JPanel {
         graphics2D.setStroke(new BasicStroke(3));
         Main.getModel().draw(graphics2D);
     }
+
+    public void returnToInitialValues() {
+        Main.getModel().returnToInitialValues();
+    }
 }

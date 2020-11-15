@@ -148,6 +148,12 @@ public class ProjectionsPanel extends MenuPagePanel
         addCenteredSection(null, projectionsButtons[PERSPECTIVE_PROJECTION]);
     }
 
+    //TODO: add filling fields by default values
+    @Override
+    public void returnToInitialValues() {
+        projectionsButtons[FRONT_PROJECTION].setSelected(true);
+    }
+
     public static double[] getAxonometricValues() {
         return FieldParser.parseFieldsArray(instance.axonometryFields, 0);
     }

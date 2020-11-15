@@ -6,12 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
+    private final Menu menu;
+
     public MenuPanel(Window window, Dimension size) {
         super();
         setPreferredSize(size);
-        Menu menu = new Menu();
+        menu = new Menu();
         menu.setPreferredSize(size);
         add(menu);
         setVisible(true);
+    }
+
+    public void returnToInitialValues() {
+        menu.returnToInitialValues();
     }
 }

@@ -83,7 +83,7 @@ public class BasicTransformationsPanel extends MenuPagePanel {
 
     private void addInitialValuesButtonListener() {
         initialValuesButton.addActionListener(e -> {
-            Main.getModel().returnToInitialValues();
+            Main.getWindow().returnToInitialValues();
             Main.getWindow().repaint();
         });
     }
@@ -98,5 +98,11 @@ public class BasicTransformationsPanel extends MenuPagePanel {
             Main.getModel().scale(scales[0], scales[1], scales[2]);
             Main.getWindow().repaint();
         });
+    }
+
+    //TODO: fill the method
+    @Override
+    public void returnToInitialValues() {
+
     }
 }
