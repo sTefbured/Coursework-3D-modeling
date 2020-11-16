@@ -38,4 +38,12 @@ public abstract class Shape {
             face.draw(graphics2D, projectionMode);
         }
     }
+
+    public Vertex[] getVertices() {
+        return vertices;
+    }
+
+    public Vertex[] getBeginValues() {
+        return beginValues;
+    }
 }

@@ -3,13 +3,14 @@ package coursework.frame.menus.tabbedMenu.panels;
 import coursework.Main;
 import coursework.frame.menus.utils.FieldParser;
 import coursework.geometry.parts.Projections;
+import coursework.geometry.utils.Transformations;
 
 import javax.swing.*;
 
 public class ProjectionsPanel extends MenuPagePanel
         implements Projections {
     private JTextField[] axonometryFields;
-    private JTextField[] isometryFields;
+    private JTextField[] obliqueFields;
     private JTextField[] perspectiveFields;
     private JToggleButton[] projectionsButtons;
     private ButtonGroup projectionsButtonsGroup;
@@ -22,9 +23,10 @@ public class ProjectionsPanel extends MenuPagePanel
         initializeButtons();
         initializeButtonGroup();
         initializeAxonometryFields();
-        initializeIsometryFields();
+        initializeObliqueFields();
         initializePerspectiveFields();
 
+        addObliqueFieldsListener();
         addSections();
         instance = this;
     }
@@ -35,7 +37,7 @@ public class ProjectionsPanel extends MenuPagePanel
                 new JToggleButton("Up", false),
                 new JToggleButton("Side", false),
                 new JToggleButton("Axonometry", false),
-                new JToggleButton("Isometry", false),
+                new JToggleButton("Oblique", false),
                 new JToggleButton("Perspective", false),
         };
         projectionsButtons[FRONT_PROJECTION].setEnabled(true);
@@ -67,12 +69,12 @@ public class ProjectionsPanel extends MenuPagePanel
         }
     }
 
-    private void initializeIsometryFields() {
-        isometryFields = new JTextField[]{
+    private void initializeObliqueFields() {
+        obliqueFields = new JTextField[]{
                 new JTextField(8),
                 new JTextField(8)
         };
-        for (JTextField field : isometryFields) {
+        for (JTextField field : obliqueFields) {
             field.setText("30");
         }
     }
@@ -99,7 +101,7 @@ public class ProjectionsPanel extends MenuPagePanel
     private void addSections() {
         addOrthographicSection();
         addAxonometricSection();
-        addIsometricSection();
+        addObliqueSection();
         addPerspectiveSection();
     }
 
@@ -123,14 +125,14 @@ public class ProjectionsPanel extends MenuPagePanel
         addCenteredSection(null, projectionsButtons[AXONOMETRIC_PROJECTION]);
     }
 
-    private void addIsometricSection() {
+    private void addObliqueSection() {
         JLabel title = new JLabel("Isometry");
         JComponent[][] components = new JComponent[][]{
-                {new JLabel("l"), isometryFields[0]},
-                {new JLabel("\u03B1"), isometryFields[1]}
+                {new JLabel("l"), obliqueFields[0]},
+                {new JLabel("\u03B1"), obliqueFields[1]}
         };
         addSection(title, components);
-        addCenteredSection(null, projectionsButtons[ISOMETRIC_PROJECTION]);
+        addCenteredSection(null, projectionsButtons[OBLIQUE_PROJECTION]);
     }
 
     private void addPerspectiveSection() {
@@ -146,6 +148,19 @@ public class ProjectionsPanel extends MenuPagePanel
         addSection(title, components);
         addSection(null, components1);
         addCenteredSection(null, projectionsButtons[PERSPECTIVE_PROJECTION]);
+    }
+
+    private void addObliqueFieldsListener() {
+        obliqueFields[0].addActionListener(e -> {
+            JTextField field = (JTextField) (e.getSource());
+            double length = FieldParser.parseField(field, 10);
+            Transformations.setObliqueLength(length);
+        });
+        obliqueFields[1].addActionListener(e -> {
+            JTextField field = (JTextField) (e.getSource());
+            double angle = FieldParser.parseField(field, 10);
+            Transformations.setObliqueAngle(angle);
+        });
     }
 
     //TODO: add filling fields by default values

@@ -2,13 +2,9 @@ package coursework.frame.menus.tabbedMenu.panels;
 
 import coursework.Main;
 import coursework.frame.menus.utils.FieldParser;
-import coursework.geometry.parts.Projections;
-import coursework.geometry.shapes.Transformations;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 //FIXME: hard-coded values
 public class BasicTransformationsPanel extends MenuPagePanel {

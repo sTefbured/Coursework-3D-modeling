@@ -1,15 +1,19 @@
-package coursework.geometry.shapes;
+package coursework.geometry.utils;
 
 import coursework.exceptions.MatricesMismatchException;
 import coursework.geometry.parts.Vertex;
+import coursework.geometry.shapes.Shape;
 
 public class Transformations {
+    private static double obliqueLength = 20;
+    private static double obliqueAngle = 30;
+
     public static void returnToInitialValues(Shape shape) {
-        for (int i = 0; i < shape.beginValues.length; i++) {
-            Vertex vertex = shape.beginValues[i];
-            shape.vertices[i].setX(vertex.getX());
-            shape.vertices[i].setY(vertex.getY());
-            shape.vertices[i].setZ(vertex.getZ());
+        for (int i = 0; i < shape.getBeginValues().length; i++) {
+            Vertex vertex = shape.getBeginValues()[i];
+            shape.getVertices()[i].setX(vertex.getX());
+            shape.getVertices()[i].setY(vertex.getY());
+            shape.getVertices()[i].setZ(vertex.getZ());
         }
     }
 
@@ -17,14 +21,14 @@ public class Transformations {
             throws MatricesMismatchException {
         if (matrix1[0].length != matrix2.length) {
             throw new MatricesMismatchException(
-                    "Columns count of the first matrix"
-                            + "must be equal to rows"
+                    "Columns count of the first matrix "
+                            + "must be equal to rows "
                             + "count of the second matrix.");
         }
         double[][] outMatrix = new double[matrix1.length][matrix2[0].length];
         for (int i = 0; i < outMatrix.length; i++) {
             for (int j = 0; j < outMatrix[i].length; j++) {
-                for (int k = 0; k < outMatrix.length; k++) {
+                for (int k = 0; k < outMatrix[i].length; k++) {
                     outMatrix[i][j] += matrix1[i][k] * matrix2[k][j];
                 }
             }
@@ -36,25 +40,25 @@ public class Transformations {
         double[][] coordinates = dest.getCoordinates();
         double[][] result;
         try {
-            result = multiply(matrix, coordinates);
+            result = multiply(coordinates, matrix);
         } catch (MatricesMismatchException exception) {
             System.out.println(exception.getMessage());
             return;
         }
         dest.setX(result[0][0]);
-        dest.setY(result[1][0]);
-        dest.setZ(result[2][0]);
-        dest.setParameter(result[3][0]);
+        dest.setY(result[0][1]);
+        dest.setZ(result[0][2]);
+        dest.setParameter(result[0][3]);
     }
 
     public static void transit(Shape target, double dx, double dy, double dz) {
         double[][] transitionMatrix = {
-                {1, 0, 0, dx},
-                {0, 1, 0, dy},
-                {0, 0, 1, dz},
-                {0, 0, 0, 1}
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {dx, dy, dz, 1}
         };
-        for (Vertex vertex : target.vertices) {
+        for (Vertex vertex : target.getVertices()) {
             multiply(vertex, transitionMatrix);
         }
     }
@@ -69,7 +73,7 @@ public class Transformations {
                 {0, 0, c, 0},
                 {0, 0, 0, 1}
         };
-        for (Vertex vertex : target.vertices) {
+        for (Vertex vertex : target.getVertices()) {
             multiply(vertex, scaleMatrix);
         }
     }
@@ -81,25 +85,25 @@ public class Transformations {
         }
         return scale;
     }
-
+//TODO: change
     private static double[][] createRotationMatrix(double radX,
                                                    double radY,
                                                    double radZ) {
         double[][] matrixX = {
                 {1, 0, 0, 0},
-                {0, Math.cos(radX), -Math.sin(radX), 0},
-                {0, Math.sin(radX), Math.cos(radX), 0},
+                {0, Math.cos(radX), Math.sin(radX), 0},
+                {0, -Math.sin(radX), Math.cos(radX), 0},
                 {0, 0, 0, 1}
         };
         double[][] matrixY = {
-                {Math.cos(radY), 0, Math.sin(radY), 0},
+                {Math.cos(radY), 0, -Math.sin(radY), 0},
                 {0, 1, 0, 0},
-                {-Math.sin(radY), 0, Math.cos(radY), 0},
+                {Math.sin(radY), 0, Math.cos(radY), 0},
                 {0, 0, 0, 1}
         };
         double[][] matrixZ = {
-                {Math.cos(radZ), -Math.sin(radZ), 0, 0},
-                {Math.sin(radZ), Math.cos(radZ), 0, 0},
+                {Math.cos(radZ), Math.sin(radZ), 0, 0},
+                {-Math.sin(radZ), Math.cos(radZ), 0, 0},
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
@@ -118,7 +122,7 @@ public class Transformations {
                                  double radZ) {
         double[][] rotationMatrix;
         rotationMatrix = createRotationMatrix(radX, radY, radZ);
-        for (Vertex vertex : target.vertices) {
+        for (Vertex vertex : target.getVertices()) {
             multiply(vertex, rotationMatrix);
         }
     }
@@ -174,6 +178,32 @@ public class Transformations {
 //        }
 //    }
 
+    //TODO: finish him
+    public static double[] getObliqueCoordinates(Vertex vertex) {
+        double[][] matrix = {
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {obliqueLength * Math.cos(obliqueAngle), obliqueLength * Math.sin(obliqueAngle), 0, 0},
+                {0, 0, 0, 1},
+        };
+        double[] coordinates = null;
+        try {
+            coordinates = multiply(matrix, vertex.getCoordinates())[0];
+            System.out.println(coordinates.length);
+        } catch (MatricesMismatchException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return coordinates;
+    }
+
+    public static void setObliqueLength(double length) {
+        obliqueLength = length;
+    }
+
+    public static void setObliqueAngle(double angleDeg) {
+        obliqueAngle = angleDeg * Math.PI / 180;
+    }
+
     //FIXME: fix
     public static void makePerspective(Shape target) {
         double[][] matrix = {
@@ -182,7 +212,7 @@ public class Transformations {
                 {0, 0, 1, 0},
                 {0, 0, 1.0 / 3000, 0}
         };
-        for (Vertex vertex : target.vertices) {
+        for (Vertex vertex : target.getVertices()) {
             multiply(vertex, matrix);
         }
     }

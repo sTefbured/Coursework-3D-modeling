@@ -1,12 +1,12 @@
 package coursework.model;
 
-import coursework.Main;
 import coursework.frame.menus.tabbedMenu.panels.ProjectionsPanel;
 import coursework.geometry.parts.Projections;
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
 import coursework.geometry.shapes.*;
 import coursework.geometry.shapes.Shape;
+import coursework.geometry.utils.Transformations;
 
 import java.awt.Graphics2D;
 import java.util.EnumSet;
@@ -51,7 +51,11 @@ public class Model implements Projections {
         if (currentProjection == AXONOMETRIC_PROJECTION) {
             double[] values = ProjectionsPanel.getAxonometricValues();
             returnToInitialValues();
+            currentProjection = AXONOMETRIC_PROJECTION;
             rotate(values[0], values[1], 0);
+        }
+        if (currentProjection == OBLIQUE_PROJECTION) {
+
         }
         for (Shape shape : shapes) {
             shape.draw(graphics2D, currentProjection);

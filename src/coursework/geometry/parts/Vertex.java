@@ -5,20 +5,14 @@ public class Vertex {
 
     public Vertex(double x, double y, double z, double parameter) {
         coordinates = new double[][] {
-                {x},
-                {y},
-                {z},
-                {parameter}
+                {x, y, z, parameter}
         };
     }
 
     public Vertex(Vertex vertex) {
         double[][] coordinates = vertex.getCoordinates();
         this.coordinates = new double[][] {
-                {coordinates[0][0]},
-                {coordinates[1][0]},
-                {coordinates[2][0]},
-                {coordinates[3][0]}
+                {coordinates[0][0], coordinates[0][1], coordinates[0][2], coordinates[0][3]}
         };
     }
 
@@ -31,19 +25,19 @@ public class Vertex {
     }
 
     public double getY() {
-        return coordinates[1][0];
+        return coordinates[0][1];
     }
 
     public void setY(double y) {
-        coordinates[1][0] = y;
+        coordinates[0][1] = y;
     }
 
     public double getZ() {
-        return coordinates[2][0];
+        return coordinates[0][2];
     }
 
     public void setZ(double z) {
-        coordinates[2][0] = z;
+        coordinates[0][2] = z;
     }
 
     public double[][] getCoordinates() {
@@ -51,10 +45,10 @@ public class Vertex {
     }
 
     public double getParameter() {
-        return coordinates[3][0];
+        return coordinates[0][3];
     }
 
     public void setParameter(double parameter) {
-        coordinates[3][0] = parameter;
+        coordinates[0][3] = parameter;
     }
 }
