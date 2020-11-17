@@ -17,7 +17,6 @@ public class ProjectionsPanel extends MenuPagePanel
 
     private static ProjectionsPanel instance;
 
-    //TODO: finish isometric projection
     public ProjectionsPanel() {
         super();
         initializeButtons();
@@ -69,14 +68,17 @@ public class ProjectionsPanel extends MenuPagePanel
         }
     }
 
+    //TODO: decide about comments
     private void initializeObliqueFields() {
         obliqueFields = new JTextField[]{
                 new JTextField(8),
                 new JTextField(8)
         };
-        for (JTextField field : obliqueFields) {
-            field.setText("30");
-        }
+        obliqueFields[0].setText("1");
+        obliqueFields[1].setText("45");
+//        for (JTextField field : obliqueFields) {
+//            field.setText("30");
+//        }
     }
 
     private void initializePerspectiveFields() {
@@ -126,7 +128,7 @@ public class ProjectionsPanel extends MenuPagePanel
     }
 
     private void addObliqueSection() {
-        JLabel title = new JLabel("Isometry");
+        JLabel title = new JLabel("Oblique");
         JComponent[][] components = new JComponent[][]{
                 {new JLabel("l"), obliqueFields[0]},
                 {new JLabel("\u03B1"), obliqueFields[1]}

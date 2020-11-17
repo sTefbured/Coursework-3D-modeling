@@ -47,15 +47,13 @@ public class Model implements Projections {
         conditions = 0;
     }
 
+    //TODO: maybe move axonometric projection checking to somewhere else
     public void draw(Graphics2D graphics2D) {
         if (currentProjection == AXONOMETRIC_PROJECTION) {
             double[] values = ProjectionsPanel.getAxonometricValues();
             returnToInitialValues();
             currentProjection = AXONOMETRIC_PROJECTION;
             rotate(values[0], values[1], 0);
-        }
-        if (currentProjection == OBLIQUE_PROJECTION) {
-
         }
         for (Shape shape : shapes) {
             shape.draw(graphics2D, currentProjection);

@@ -5,8 +5,8 @@ import coursework.geometry.parts.Vertex;
 import coursework.geometry.shapes.Shape;
 
 public class Transformations {
-    private static double obliqueLength = 20;
-    private static double obliqueAngle = 30;
+    private static double obliqueLength = 1;
+    private static double obliqueAngle = 45 * Math.PI / 180.0;
 
     public static void returnToInitialValues(Shape shape) {
         for (int i = 0; i < shape.getBeginValues().length; i++) {
@@ -85,6 +85,7 @@ public class Transformations {
         }
         return scale;
     }
+
 //TODO: change
     private static double[][] createRotationMatrix(double radX,
                                                    double radY,
@@ -188,8 +189,7 @@ public class Transformations {
         };
         double[] coordinates = null;
         try {
-            coordinates = multiply(matrix, vertex.getCoordinates())[0];
-            System.out.println(coordinates.length);
+            coordinates = multiply(vertex.getCoordinates(), matrix)[0];
         } catch (MatricesMismatchException exception) {
             System.out.println(exception.getMessage());
         }
@@ -201,7 +201,7 @@ public class Transformations {
     }
 
     public static void setObliqueAngle(double angleDeg) {
-        obliqueAngle = angleDeg * Math.PI / 180;
+        obliqueAngle = angleDeg * Math.PI / 180.0;
     }
 
     //FIXME: fix

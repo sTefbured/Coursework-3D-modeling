@@ -22,7 +22,7 @@ public class Edge implements Projections {
         switch (projectionMode) {
             case OBLIQUE_PROJECTION -> {
                 double[] startCoordinates = Transformations.getObliqueCoordinates(vertices[0]);
-                double[] endCoordinates = Transformations.getObliqueCoordinates(vertices[0]);
+                double[] endCoordinates = Transformations.getObliqueCoordinates(vertices[1]);
                 coordinates[0] = (int) startCoordinates[0];
                 coordinates[1] = (int) startCoordinates[1];
                 coordinates[2] = (int) endCoordinates[0];
