@@ -1,12 +1,20 @@
 package coursework.geometry.utils;
 
 import coursework.exceptions.MatricesMismatchException;
+import coursework.frame.menus.tabbedMenu.panels.ProjectionsPanel;
 import coursework.geometry.parts.Vertex;
 import coursework.geometry.shapes.Shape;
 
+import java.util.Arrays;
+
 public class Transformations {
+    private static double axonometricFi = 30 * Math.PI / 180.0;
+    private static double axonometricPsi = 30 * Math.PI / 180.0;
+
     private static double obliqueLength = 1;
     private static double obliqueAngle = 45 * Math.PI / 180.0;
+
+    private static double perspectiveDistance = 1000;
 
     public static void returnToInitialValues(Shape shape) {
         for (int i = 0; i < shape.getBeginValues().length; i++) {
@@ -86,7 +94,6 @@ public class Transformations {
         return scale;
     }
 
-//TODO: change
     private static double[][] createRotationMatrix(double radX,
                                                    double radY,
                                                    double radZ) {
@@ -138,53 +145,13 @@ public class Transformations {
                 degZ * Math.PI / 180.0);
     }
 
-    //TODO: maybe delete the comment below
-//    public static void getProjectionXY(Shape target) {
-//        long time = System.nanoTime();
-//        double[][] matrix = {
-//                {1, 0, 0, 0},
-//                {0, 1, 0, 0},
-//                {0, 0, 0, 0},
-//                {0, 0, 0, 1}
-//        };
-//        returnToInitialValues(target);
-//        for (Vertex vertex : target.vertices) {
-//            multiply(vertex, matrix);
-//        }
-//        System.out.println("TIME: " + (System.nanoTime() - time));
-//    }
-//
-//    public static void getProjectionXZ(Shape target) {
-//        double[][] matrix = {
-//                {1, 0, 0, 0},
-//                {0, 0, 0, 0},
-//                {0, 0, 1, 0},
-//                {0, 0, 0, 1}
-//        };
-//        returnToInitialValues(target);
-//        for (Vertex vertex : target.vertices) {
-//            multiply(vertex, matrix);
-//        }
-//    }
-//
-//    public static void getProjectionZY(Shape target) {
-//        double[][] matrix = {
-//                {0, 0, 0, 0},
-//                {0, 1, 0, 0},
-//                {0, 0, 1, 0},
-//                {0, 0, 0, 1}
-//        };
-//        for (Vertex vertex : target.vertices) {
-//            multiply(vertex, matrix);
-//        }
-//    }
-
-    //TODO: finish him
     public static double[] getObliqueCoordinates(Vertex vertex) {
+        double a = obliqueLength * Math.cos(obliqueAngle);
+        double b = obliqueLength * Math.sin(obliqueAngle);
         double[][] matrix = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
-                {obliqueLength * Math.cos(obliqueAngle), obliqueLength * Math.sin(obliqueAngle), 0, 0},
+                {a, b, 0, 0},
                 {0, 0, 0, 1},
         };
         double[] coordinates = null;
@@ -204,16 +171,48 @@ public class Transformations {
         obliqueAngle = angleDeg * Math.PI / 180.0;
     }
 
-    //FIXME: fix
-    public static void makePerspective(Shape target) {
+    public static double[] getPerspectiveCoordinates(Vertex vertex) {
         double[][] matrix = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 1.0 / 3000, 0}
+                {0, 0, 1, 1.0 / perspectiveDistance},
+                {0, 0, 0, 0}
         };
-        for (Vertex vertex : target.getVertices()) {
-            multiply(vertex, matrix);
+        double[] result = null;
+        try {
+            result = multiply(vertex.getCoordinates(), matrix)[0];
+            for (int i = 0; i < result.length; i++) {
+                result[i] /= result[result.length - 1];
+            }
+        } catch (MatricesMismatchException exception) {
+            System.out.println(exception.getMessage());
         }
+        return result;
+    }
+
+    public static void setPerspectiveDistance(double distance) {
+        perspectiveDistance = distance;
+    }
+
+    public static double[] getAxonometricCoordinates(Vertex vertex) {
+        double[][] rotationMatrix = createRotationMatrix(axonometricFi,
+                axonometricPsi, 0);
+        double[] result = null;
+        try {
+            if (rotationMatrix != null) {
+                result = multiply(vertex.getCoordinates(), rotationMatrix)[0];
+            }
+        } catch (MatricesMismatchException exception) {
+            System.out.println(exception.getMessage());
+        }
+        return result;
+    }
+
+    public static void setAxonometricFi(double angleDeg) {
+        axonometricFi = angleDeg * Math.PI / 180.0;
+    }
+
+    public static void setAxonometricPsi(double angleDeg) {
+        axonometricPsi = angleDeg * Math.PI / 180.0;
     }
 }

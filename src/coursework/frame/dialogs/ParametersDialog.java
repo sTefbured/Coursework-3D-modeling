@@ -55,7 +55,8 @@ public class ParametersDialog extends JDialog {
     private synchronized void initializeButton() {
         button = new JButton("Build");
         button.addActionListener(e -> {
-            double[] parameters = FieldParser.parseFieldsArray(fields, defaultParameters);
+            double[] parameters = FieldParser.parseFieldsArray(fields,
+                    defaultParameters);
             setVisible(false);
             Main.createModel(parameters);
             Main.getWindow().repaint();

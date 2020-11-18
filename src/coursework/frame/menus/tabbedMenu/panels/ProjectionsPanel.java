@@ -25,7 +25,9 @@ public class ProjectionsPanel extends MenuPagePanel
         initializeObliqueFields();
         initializePerspectiveFields();
 
+        addAxonometricFieldsListener();
         addObliqueFieldsListener();
+        addPerspectiveFieldsListener();
         addSections();
         instance = this;
     }
@@ -68,7 +70,6 @@ public class ProjectionsPanel extends MenuPagePanel
         }
     }
 
-    //TODO: decide about comments
     private void initializeObliqueFields() {
         obliqueFields = new JTextField[]{
                 new JTextField(8),
@@ -76,9 +77,6 @@ public class ProjectionsPanel extends MenuPagePanel
         };
         obliqueFields[0].setText("1");
         obliqueFields[1].setText("45");
-//        for (JTextField field : obliqueFields) {
-//            field.setText("30");
-//        }
     }
 
     private void initializePerspectiveFields() {
@@ -152,16 +150,41 @@ public class ProjectionsPanel extends MenuPagePanel
         addCenteredSection(null, projectionsButtons[PERSPECTIVE_PROJECTION]);
     }
 
+    private void addAxonometricFieldsListener() {
+        axonometryFields[0].addActionListener(e -> {
+            JTextField field = (JTextField) (e.getSource());
+            double length = FieldParser.parseField(field, 10);
+            Transformations.setAxonometricFi(length);
+            Main.getWindow().repaint();
+        });
+        axonometryFields[1].addActionListener(e -> {
+            JTextField field = (JTextField) (e.getSource());
+            double angle = FieldParser.parseField(field, 10);
+            Transformations.setAxonometricPsi(angle);
+            Main.getWindow().repaint();
+        });
+    }
+
     private void addObliqueFieldsListener() {
         obliqueFields[0].addActionListener(e -> {
             JTextField field = (JTextField) (e.getSource());
             double length = FieldParser.parseField(field, 10);
             Transformations.setObliqueLength(length);
+            Main.getWindow().repaint();
         });
         obliqueFields[1].addActionListener(e -> {
             JTextField field = (JTextField) (e.getSource());
             double angle = FieldParser.parseField(field, 10);
             Transformations.setObliqueAngle(angle);
+            Main.getWindow().repaint();
+        });
+    }
+
+    private void addPerspectiveFieldsListener() {
+        perspectiveFields[0].addActionListener(e -> {
+            double distance = FieldParser.parseField(perspectiveFields[0], 200);
+            Transformations.setPerspectiveDistance(distance);
+            Main.getWindow().repaint();
         });
     }
 

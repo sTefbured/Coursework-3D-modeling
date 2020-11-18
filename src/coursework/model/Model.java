@@ -47,14 +47,7 @@ public class Model implements Projections {
         conditions = 0;
     }
 
-    //TODO: maybe move axonometric projection checking to somewhere else
     public void draw(Graphics2D graphics2D) {
-        if (currentProjection == AXONOMETRIC_PROJECTION) {
-            double[] values = ProjectionsPanel.getAxonometricValues();
-            returnToInitialValues();
-            currentProjection = AXONOMETRIC_PROJECTION;
-            rotate(values[0], values[1], 0);
-        }
         for (Shape shape : shapes) {
             shape.draw(graphics2D, currentProjection);
         }
@@ -79,36 +72,10 @@ public class Model implements Projections {
         }
     }
 
-    //TODO: maybe delete the comment below
-//    public void projectionX() {
-//        for (Shape shape : shapes) {
-//            Transformations.пуеProjectionX(shape);
-//        }
-//    }
-//
-//    public void projectionY() {
-//        for (Shape shape : shapes) {
-//            Transformations.makeProjectionY(shape);
-//        }
-//    }
-//
-//    public void projectionZ() {
-//        for (Shape shape : shapes) {
-//            Transformations.makeProjectionZ(shape);
-//        }
-//    }
-
     public void returnToInitialValues() {
         currentProjection = FRONT_PROJECTION;
         for (Shape shape : shapes) {
             Transformations.returnToInitialValues(shape);
-        }
-    }
-
-    //FIXME: fix
-    public void makePerspective() {
-        for (Shape shape : shapes) {
-            Transformations.makePerspective(shape);
         }
     }
 
