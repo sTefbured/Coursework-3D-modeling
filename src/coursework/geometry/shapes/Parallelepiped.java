@@ -3,6 +3,8 @@ package coursework.geometry.shapes;
 import coursework.exceptions.WrongCountException;
 import coursework.geometry.parts.*;
 
+import java.awt.*;
+
 public class Parallelepiped extends Shape {
     public static final int VERTICES_COUNT = 8;
 
@@ -25,9 +27,9 @@ public class Parallelepiped extends Shape {
                 new Edge(vertices[7], vertices[4]),
 
                 new Edge(vertices[0], vertices[7]), // Middle edges
-                new Edge(vertices[1], vertices[6]),
+                new Edge(vertices[6], vertices[1]),
                 new Edge(vertices[2], vertices[5]),
-                new Edge(vertices[3], vertices[4]),
+                new Edge(vertices[4], vertices[3]),
         };
     }
 
@@ -47,5 +49,16 @@ public class Parallelepiped extends Shape {
                 // Down
                 new Face(edges[8], edges[3], edges[11], edges[7]),
         };
+    }
+
+    @Override
+    public Parallelepiped getCopy() {
+        Parallelepiped copy = null;
+        try {
+            copy = new Parallelepiped(vertices);
+        } catch (WrongCountException e) {
+            e.printStackTrace();
+        }
+        return copy;
     }
 }

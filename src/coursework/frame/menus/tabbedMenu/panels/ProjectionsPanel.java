@@ -87,7 +87,7 @@ public class ProjectionsPanel extends MenuPagePanel
                 new JTextField(8)
         };
         for (JTextField field : perspectiveFields) {
-            field.setText("30");
+            field.setText("1000");
         }
     }
 
@@ -186,15 +186,26 @@ public class ProjectionsPanel extends MenuPagePanel
             Transformations.setPerspectiveDistance(distance);
             Main.getWindow().repaint();
         });
+        perspectiveFields[1].addActionListener(e -> {
+            double ro = FieldParser.parseField(perspectiveFields[1], 200);
+            Transformations.setPerspectiveRo(ro);
+            Main.getWindow().repaint();
+        });
+        perspectiveFields[2].addActionListener(e -> {
+            double fi = FieldParser.parseField(perspectiveFields[2], 200);
+            Transformations.setPerspectiveFi(fi);
+            Main.getWindow().repaint();
+        });
+        perspectiveFields[3].addActionListener(e -> {
+            double teta = FieldParser.parseField(perspectiveFields[3], 200);
+            Transformations.setPerspectiveTeta(teta);
+            Main.getWindow().repaint();
+        });
     }
 
     //TODO: add filling fields by default values
     @Override
     public void returnToInitialValues() {
         projectionsButtons[FRONT_PROJECTION].setSelected(true);
-    }
-
-    public static double[] getAxonometricValues() {
-        return FieldParser.parseFieldsArray(instance.axonometryFields, 0);
     }
 }

@@ -13,7 +13,7 @@ public class AboutDialog extends JDialog {
             + "<h1>This app is created by <br> Stepan Kotikov </h1>"
             + "as a coursework for discipline \"3d modelling.\"</div>"
             + "<div style=\"padding-bottom: 5px\" "
-            + "align=\"center\">2020&copy</div></html>";
+            + "align=\"center\">2020 &copy</div></html>";
 
     public AboutDialog() {
         super(Main.getWindow(), "About", false);

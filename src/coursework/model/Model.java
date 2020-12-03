@@ -1,6 +1,5 @@
 package coursework.model;
 
-import coursework.frame.menus.tabbedMenu.panels.ProjectionsPanel;
 import coursework.geometry.parts.Projections;
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
@@ -11,9 +10,6 @@ import coursework.geometry.utils.Transformations;
 import java.awt.Graphics2D;
 import java.util.EnumSet;
 
-// TODO: PAY ATTENTION TO THE TETRAHEDRON. MAYBE SHOULD
-//  DECLARE SOME POINTS IN OTHER WAY
-//  (IF THAT, MUST ALSO REFACTOR 'Tetrahedron' CLASS).
 public class Model implements Projections {
     private int currentProjection;
     private final Shape[] shapes;
@@ -37,8 +33,8 @@ public class Model implements Projections {
         Shape pyramid = new Tetrahedron(
                 new Vertex(0, -h, 0, 1),
                 new Vertex(-d / 2, 0, d * Math.sqrt(3) / 6, 1),
-                new Vertex(d / 2, 0, d * Math.sqrt(3) / 6, 1),
-                new Vertex(0, 0, -d * Math.sqrt(3) / 3, 1)
+                new Vertex(0, 0, -d * Math.sqrt(3) / 3, 1),
+                new Vertex(d / 2, 0, d * Math.sqrt(3) / 6, 1)
         );
         shapes = new Shape[] {
                 parallelepiped,

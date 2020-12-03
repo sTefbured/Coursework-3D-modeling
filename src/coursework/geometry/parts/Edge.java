@@ -15,17 +15,15 @@ public class Edge implements Projections {
         };
     }
 
+    private Edge(Vertex[] vertices) {
+        this.vertices = vertices;
+    }
+
     public void draw(Graphics2D graphics2D, int projectionMode) {
         int[] coordinates = new int[4];
         int xCenter = Main.getWindow().getDrawingPanel().getWidth() / 2;
         int yCenter = Main.getWindow().getDrawingPanel().getHeight() / 2;
         switch (projectionMode) {
-            case AXONOMETRIC_PROJECTION ->
-                    setAxonometricCoordinates(coordinates);
-            case OBLIQUE_PROJECTION ->
-                    setObliqueCoordinates(coordinates);
-            case PERSPECTIVE_PROJECTION ->
-                    setPerspectiveCoordinates(coordinates);
             case UP_PROJECTION ->
                     setXZCoordinates(coordinates,
                                      vertices[0].getCoordinates()[0],
@@ -45,30 +43,6 @@ public class Edge implements Projections {
                 -coordinates[1] + yCenter - 5, 10, 10);
         graphics2D.fillOval(coordinates[2] + xCenter - 5,
                 -coordinates[3] + yCenter - 5, 10, 10);
-    }
-
-    private void setAxonometricCoordinates(int[] coordinates) {
-        double[] startCoordinates = Transformations
-                .getAxonometricCoordinates(vertices[0]);
-        double[] endCoordinates = Transformations
-                .getAxonometricCoordinates(vertices[1]);
-        setXYCoordinates(coordinates, startCoordinates, endCoordinates);
-    }
-
-    private void setObliqueCoordinates(int[] coordinates) {
-        double[] startCoordinates = Transformations
-                .getObliqueCoordinates(vertices[0]);
-        double[] endCoordinates = Transformations
-                .getObliqueCoordinates(vertices[1]);
-        setXYCoordinates(coordinates, startCoordinates, endCoordinates);
-    }
-
-    private void setPerspectiveCoordinates(int[] coordinates) {
-        double[] startCoordinates = Transformations
-                .getPerspectiveCoordinates(vertices[0]);
-        double[] endCoordinates = Transformations
-                .getPerspectiveCoordinates(vertices[1]);
-        setXYCoordinates(coordinates, startCoordinates, endCoordinates);
     }
 
     private void setXYCoordinates(int[] outCoordinates,
@@ -97,4 +71,26 @@ public class Edge implements Projections {
         outCoordinates[2] = (int) endCoordinates[2];
         outCoordinates[3] = (int) endCoordinates[1];
     }
+
+    public Vertex[] getVertices() {
+        return vertices;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Edge\n");
+        for (Vertex vertex : vertices) {
+            builder.append("\t\t").append(vertex.toString()).append("\n");
+        }
+        return builder.toString();
+    }
+
+//    public Edge getCopy() {
+//        Vertex[] copiedVertices = new Vertex[vertices.length];
+//        for (int i = 0; i < vertices.length; i++) {
+//            copiedVertices[i] = vertices[i].getCopy();
+//        }
+//        return new Edge(copiedVertices);
+//    }
 }

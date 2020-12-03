@@ -15,6 +15,10 @@ public class Transformations {
     private static double obliqueAngle = 45 * Math.PI / 180.0;
 
     private static double perspectiveDistance = 1000;
+    private static double perspectiveRo = 1000;
+    private static double perspectiveTeta = 1000;
+    private static double perspectiveFi = 1000;
+
 
     public static void returnToInitialValues(Shape shape) {
         for (int i = 0; i < shape.getBeginValues().length; i++) {
@@ -53,10 +57,10 @@ public class Transformations {
             System.out.println(exception.getMessage());
             return;
         }
-        dest.setX(result[0][0]);
-        dest.setY(result[0][1]);
-        dest.setZ(result[0][2]);
-        dest.setParameter(result[0][3]);
+        dest.setX(result[0][0] / result[0][3]);
+        dest.setY(result[0][1] / result[0][3]);
+        dest.setZ(result[0][2] / result[0][3]);
+        dest.setParameter(result[0][3] / result[0][3]);
     }
 
     public static void transit(Shape target, double dx, double dy, double dz) {
@@ -145,7 +149,26 @@ public class Transformations {
                 degZ * Math.PI / 180.0);
     }
 
-    public static double[] getObliqueCoordinates(Vertex vertex) {
+    public static void makeAxonometricProjection(Shape copy) {
+        double[][] rotationMatrix = createRotationMatrix(axonometricFi,
+                axonometricPsi, 0);
+        if (rotationMatrix == null) {
+            return;
+        }
+        for (Vertex vertex : copy.getVertices()) {
+            multiply(vertex, rotationMatrix);
+        }
+    }
+
+    public static void setAxonometricFi(double angleDeg) {
+        axonometricFi = angleDeg * Math.PI / 180.0;
+    }
+
+    public static void setAxonometricPsi(double angleDeg) {
+        axonometricPsi = angleDeg * Math.PI / 180.0;
+    }
+
+    public static void makeObliqueProjection(Shape copy) {
         double a = obliqueLength * Math.cos(obliqueAngle);
         double b = obliqueLength * Math.sin(obliqueAngle);
         double[][] matrix = {
@@ -154,13 +177,9 @@ public class Transformations {
                 {a, b, 0, 0},
                 {0, 0, 0, 1},
         };
-        double[] coordinates = null;
-        try {
-            coordinates = multiply(vertex.getCoordinates(), matrix)[0];
-        } catch (MatricesMismatchException exception) {
-            System.out.println(exception.getMessage());
+        for (Vertex vertex : copy.getVertices()) {
+            multiply(vertex, matrix);
         }
-        return coordinates;
     }
 
     public static void setObliqueLength(double length) {
@@ -171,48 +190,48 @@ public class Transformations {
         obliqueAngle = angleDeg * Math.PI / 180.0;
     }
 
-    public static double[] getPerspectiveCoordinates(Vertex vertex) {
+    public static void makePerspectiveProjection(Shape shape) {
         double[][] matrix = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 1.0 / perspectiveDistance},
                 {0, 0, 0, 0}
         };
-        double[] result = null;
-        try {
-            result = multiply(vertex.getCoordinates(), matrix)[0];
-            for (int i = 0; i < result.length; i++) {
-                result[i] /= result[result.length - 1];
-            }
-        } catch (MatricesMismatchException exception) {
-            System.out.println(exception.getMessage());
+        Vertex[] vertices = shape.getVertices();
+        for (Vertex vertex : vertices) {
+            multiply(vertex, matrix);
         }
-        return result;
     }
 
     public static void setPerspectiveDistance(double distance) {
         perspectiveDistance = distance;
     }
 
-    public static double[] getAxonometricCoordinates(Vertex vertex) {
-        double[][] rotationMatrix = createRotationMatrix(axonometricFi,
-                axonometricPsi, 0);
-        double[] result = null;
-        try {
-            if (rotationMatrix != null) {
-                result = multiply(vertex.getCoordinates(), rotationMatrix)[0];
-            }
-        } catch (MatricesMismatchException exception) {
-            System.out.println(exception.getMessage());
+    public static void makeViewTransformations(Shape shape) {
+        double sinFi = Math.sin(perspectiveFi);
+        double cosFi = Math.cos(perspectiveFi);
+        double sinTeta = Math.sin(perspectiveTeta);
+        double cosTeta = Math.cos(perspectiveTeta);
+        double[][] matrix = {
+                {-sinTeta, -cosFi * cosTeta, -sinFi * cosTeta, 0},
+                {cosTeta, -cosFi * sinTeta, -sinFi * sinTeta, 0},
+                {0, sinFi, -cosFi, 0},
+                {0, 0, perspectiveRo, 1}
+        };
+        for (Vertex vertex : shape.getVertices()) {
+            multiply(vertex, matrix);
         }
-        return result;
     }
 
-    public static void setAxonometricFi(double angleDeg) {
-        axonometricFi = angleDeg * Math.PI / 180.0;
+    public static void setPerspectiveRo(double ro) {
+        perspectiveRo = ro;
     }
 
-    public static void setAxonometricPsi(double angleDeg) {
-        axonometricPsi = angleDeg * Math.PI / 180.0;
+    public static void setPerspectiveTeta(double teta) {
+        perspectiveTeta = teta;
+    }
+
+    public static void setPerspectiveFi(double fi) {
+        perspectiveFi = fi;
     }
 }

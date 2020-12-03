@@ -1,5 +1,7 @@
 package coursework.geometry.parts;
 
+import java.util.Arrays;
+
 public class Vertex {
     private final double[][] coordinates;
 
@@ -9,11 +11,8 @@ public class Vertex {
         };
     }
 
-    public Vertex(Vertex vertex) {
-        double[][] coordinates = vertex.getCoordinates();
-        this.coordinates = new double[][] {
-                {coordinates[0][0], coordinates[0][1], coordinates[0][2], coordinates[0][3]}
-        };
+    private Vertex(double[][] coordinates) {
+        this.coordinates = coordinates;
     }
 
     public double getX() {
@@ -50,5 +49,17 @@ public class Vertex {
 
     public void setParameter(double parameter) {
         coordinates[0][3] = parameter;
+    }
+
+    @Override
+    public String toString() {
+        return "Vertex\n" + '\t' + Arrays.toString(coordinates[0]) + '\n';
+    }
+
+    public Vertex getCopy() {
+        double[][] copiedCoordinates = new double[][] {
+                Arrays.copyOf(coordinates[0], coordinates[0].length)
+        };
+        return new Vertex(copiedCoordinates);
     }
 }

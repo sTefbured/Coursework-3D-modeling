@@ -2,10 +2,11 @@ package coursework.geometry.shapes;
 
 import coursework.exceptions.WrongCountException;
 import coursework.geometry.parts.*;
+import coursework.geometry.utils.Transformations;
 
 import java.awt.*;
 
-public abstract class Shape {
+public abstract class Shape implements Projections {
     protected final Vertex[] beginValues;
     protected Vertex[] vertices;
     protected Edge[] edges;
@@ -19,11 +20,11 @@ public abstract class Shape {
         }
         this.vertices = new Vertex[verticesCount];
         for (int i = 0; i < verticesCount; i++) {
-            this.vertices[i] = new Vertex(vertices[i]);
+            this.vertices[i] = vertices[i].getCopy();
         }
         this.beginValues = new Vertex[verticesCount];
         for (int i = 0; i < verticesCount; i++) {
-            this.beginValues[i] = new Vertex(vertices[i]);
+            this.beginValues[i] = vertices[i].getCopy();
         }
         initializeEdges();
         initializeFaces();
@@ -34,7 +35,18 @@ public abstract class Shape {
     protected abstract void initializeFaces();
 
     public void draw(Graphics2D graphics2D, int projectionMode) {
-        for (Face face : faces) {
+        Shape copyShape = getCopy();
+        switch (projectionMode) {
+            case AXONOMETRIC_PROJECTION ->
+                Transformations.makeAxonometricProjection(copyShape);
+            case OBLIQUE_PROJECTION ->
+                Transformations.makeObliqueProjection(copyShape);
+            case PERSPECTIVE_PROJECTION -> {
+                Transformations.makeViewTransformations(copyShape);
+                Transformations.makePerspectiveProjection(copyShape);
+            }
+        }
+        for (Face face : copyShape.faces) {
             face.draw(graphics2D, projectionMode);
         }
     }
@@ -43,7 +55,13 @@ public abstract class Shape {
         return vertices;
     }
 
+    public Edge[] getEdges() {
+        return edges;
+    }
+
     public Vertex[] getBeginValues() {
         return beginValues;
     }
+
+    public abstract Shape getCopy();
 }
