@@ -1,11 +1,9 @@
 package coursework.geometry.utils;
 
 import coursework.exceptions.MatricesMismatchException;
-import coursework.frame.menus.tabbedMenu.panels.ProjectionsPanel;
 import coursework.geometry.parts.Vertex;
 import coursework.geometry.shapes.Shape;
 
-import java.util.Arrays;
 
 public class Transformations {
     private static double axonometricFi = 30 * Math.PI / 180.0;
@@ -90,10 +88,9 @@ public class Transformations {
         }
     }
 
-    //TODO: find correct scale limits
     private static double getCorrectScaleValue(double scale) {
-        if (scale == 0) {
-            return 1;
+        if (Math.abs(scale) <= 0.001) {
+            return 0.001;
         }
         return scale;
     }
@@ -108,9 +105,9 @@ public class Transformations {
                 {0, 0, 0, 1}
         };
         double[][] matrixY = {
-                {Math.cos(radY), 0, -Math.sin(radY), 0},
+                {Math.cos(-radY), 0, -Math.sin(-radY), 0},
                 {0, 1, 0, 0},
-                {Math.sin(radY), 0, Math.cos(radY), 0},
+                {Math.sin(-radY), 0, Math.cos(-radY), 0},
                 {0, 0, 0, 1}
         };
         double[][] matrixZ = {
@@ -124,6 +121,7 @@ public class Transformations {
             return multiply(buf, matrixZ);
         } catch (MatricesMismatchException exception) {
             System.out.println(exception.getMessage());
+            exception.printStackTrace();
             return null;
         }
     }
@@ -145,7 +143,7 @@ public class Transformations {
                                  double degZ) {
         rotateRad(target,
                 degX * Math.PI / 180.0,
-                degY * Math.PI / 180.0,
+                -degY * Math.PI / 180.0,
                 degZ * Math.PI / 180.0);
     }
 
@@ -190,14 +188,14 @@ public class Transformations {
         obliqueAngle = angleDeg * Math.PI / 180.0;
     }
 
-    public static void makePerspectiveProjection(Shape shape) {
+    public static void makePerspectiveProjection(Shape copy) {
         double[][] matrix = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 1.0 / perspectiveDistance},
                 {0, 0, 0, 0}
         };
-        Vertex[] vertices = shape.getVertices();
+        Vertex[] vertices = copy.getVertices();
         for (Vertex vertex : vertices) {
             multiply(vertex, matrix);
         }
@@ -207,7 +205,7 @@ public class Transformations {
         perspectiveDistance = distance;
     }
 
-    public static void makeViewTransformations(Shape shape) {
+    public static void makeViewTransformations(Shape copy) {
         double sinFi = Math.sin(perspectiveFi);
         double cosFi = Math.cos(perspectiveFi);
         double sinTeta = Math.sin(perspectiveTeta);
@@ -218,7 +216,7 @@ public class Transformations {
                 {0, sinFi, -cosFi, 0},
                 {0, 0, perspectiveRo, 1}
         };
-        for (Vertex vertex : shape.getVertices()) {
+        for (Vertex vertex : copy.getVertices()) {
             multiply(vertex, matrix);
         }
     }
@@ -228,10 +226,22 @@ public class Transformations {
     }
 
     public static void setPerspectiveTeta(double teta) {
-        perspectiveTeta = teta;
+        perspectiveTeta = Math.PI * teta / 180.0;
     }
 
     public static void setPerspectiveFi(double fi) {
-        perspectiveFi = fi;
+        perspectiveFi = Math.PI * fi / 180.0;
+    }
+
+    public static double getCos(double[] vector1, double[] vector2) {
+        double multiplication = 0;
+        double module1 = Math.sqrt(vector1[0] * vector1[0]
+                + vector1[1] * vector1[1] + vector1[2] * vector1[2]);
+        double module2 = Math.sqrt(vector2[0] * vector2[0]
+                + vector2[1] * vector2[1] + vector2[2] * vector2[2]);
+        for (int i = 0; i < vector1.length - 1; i++) {
+            multiplication += vector1[i] * vector2[i];
+        }
+        return multiplication / (module1 * module2);
     }
 }

@@ -11,6 +11,10 @@ public class Vertex {
         };
     }
 
+    public Vertex() {
+        this(0, 0, 0, 0);
+    }
+
     private Vertex(double[][] coordinates) {
         this.coordinates = coordinates;
     }

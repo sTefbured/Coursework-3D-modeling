@@ -8,19 +8,26 @@ import coursework.geometry.shapes.Shape;
 import coursework.geometry.utils.Transformations;
 
 import java.awt.Graphics2D;
-import java.util.EnumSet;
 
 public class Model implements Projections {
     private int currentProjection;
     private final Shape[] shapes;
 
-    public short conditions;
-
-    //FIXME: maybe shouldn't throw an exception
-    public Model(double a, double b, double c, double h, double d)
-            throws WrongCountException {
+    public Model(double a, double b, double c, double h, double d) {
         currentProjection = FRONT_PROJECTION;
-        Shape parallelepiped = new Parallelepiped(
+        shapes = new Shape[2];
+        try {
+            shapes[0] = createParallelepiped(a, b, c);
+            shapes[1] = createTetrahedron(h, d);
+        } catch (WrongCountException exception) {
+            System.out.println(exception.getMessage());
+            exception.printStackTrace();
+        }
+    }
+
+    private Parallelepiped createParallelepiped(double a, double b, double c)
+            throws WrongCountException {
+        return new Parallelepiped(
                 new Vertex(-a / 2, 0, -c / 2, 1),
                 new Vertex(-a / 2, b, -c / 2, 1),
                 new Vertex(a / 2, b, -c / 2, 1),
@@ -30,21 +37,23 @@ public class Model implements Projections {
                 new Vertex(-a / 2, b, c / 2, 1),
                 new Vertex(-a / 2, 0, c / 2, 1)
         );
-        Shape pyramid = new Tetrahedron(
+    }
+
+    private Tetrahedron createTetrahedron(double h, double d)
+            throws WrongCountException {
+        return new Tetrahedron(
                 new Vertex(0, -h, 0, 1),
                 new Vertex(-d / 2, 0, d * Math.sqrt(3) / 6, 1),
                 new Vertex(0, 0, -d * Math.sqrt(3) / 3, 1),
                 new Vertex(d / 2, 0, d * Math.sqrt(3) / 6, 1)
         );
-        shapes = new Shape[] {
-                parallelepiped,
-                pyramid
-        };
-        conditions = 0;
     }
 
     public void draw(Graphics2D graphics2D) {
         for (Shape shape : shapes) {
+            for (Face face : shape.getFaces()) {
+                face.setNormalVector();
+            }
             shape.draw(graphics2D, currentProjection);
         }
     }
@@ -54,7 +63,6 @@ public class Model implements Projections {
             Transformations.transit(shape, dx, dy, dz);
         }
     }
-
 
     public void scale(double a, double b, double c) {
         for (Shape shape : shapes) {
@@ -73,26 +81,6 @@ public class Model implements Projections {
         for (Shape shape : shapes) {
             Transformations.returnToInitialValues(shape);
         }
-    }
-
-    public void update() {
-        for (ModelCondition condition : EnumSet.allOf(ModelCondition.class)) {
-            if ((conditions & condition.getValue()) == condition.getValue()) {
-                condition.performAction(this);
-            }
-        }
-    }
-
-    public void activateCondition(ModelCondition condition) {
-        conditions |= condition.getValue();
-    }
-
-    public void deactivateCondition(ModelCondition condition) {
-        conditions ^= condition.getValue();
-    }
-
-    public int getCurrentProjection() {
-        return currentProjection;
     }
 
     public void setCurrentProjection(int currentProjection) {

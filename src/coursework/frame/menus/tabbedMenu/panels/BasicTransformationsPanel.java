@@ -88,7 +88,7 @@ public class BasicTransformationsPanel extends MenuPagePanel {
         repaintButton.addActionListener(e -> {
             double[] deltas = FieldParser.parseFieldsArray(transitionFields, 0);
             double[] angles = FieldParser.parseFieldsArray(rotationFields, 0);
-            double[] scales = FieldParser.parseFieldsArray(scalingFields, 0);
+            double[] scales = FieldParser.parseFieldsArray(scalingFields, 1);
             Main.getModel().transit(deltas[0], deltas[1], deltas[2]);
             Main.getModel().rotate(angles[0], angles[1], angles[2]);
             Main.getModel().scale(scales[0], scales[1], scales[2]);

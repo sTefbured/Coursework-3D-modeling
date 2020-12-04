@@ -9,7 +9,6 @@ import java.awt.*;
 public abstract class Shape implements Projections {
     protected final Vertex[] beginValues;
     protected Vertex[] vertices;
-    protected Edge[] edges;
     protected Face[] faces;
 
     public Shape(int verticesCount, Vertex... vertices)
@@ -26,11 +25,8 @@ public abstract class Shape implements Projections {
         for (int i = 0; i < verticesCount; i++) {
             this.beginValues[i] = vertices[i].getCopy();
         }
-        initializeEdges();
         initializeFaces();
     }
-
-    protected abstract void initializeEdges();
 
     protected abstract void initializeFaces();
 
@@ -38,9 +34,9 @@ public abstract class Shape implements Projections {
         Shape copyShape = getCopy();
         switch (projectionMode) {
             case AXONOMETRIC_PROJECTION ->
-                Transformations.makeAxonometricProjection(copyShape);
+                    Transformations.makeAxonometricProjection(copyShape);
             case OBLIQUE_PROJECTION ->
-                Transformations.makeObliqueProjection(copyShape);
+                    Transformations.makeObliqueProjection(copyShape);
             case PERSPECTIVE_PROJECTION -> {
                 Transformations.makeViewTransformations(copyShape);
                 Transformations.makePerspectiveProjection(copyShape);
@@ -55,8 +51,8 @@ public abstract class Shape implements Projections {
         return vertices;
     }
 
-    public Edge[] getEdges() {
-        return edges;
+    public Face[] getFaces() {
+        return faces;
     }
 
     public Vertex[] getBeginValues() {

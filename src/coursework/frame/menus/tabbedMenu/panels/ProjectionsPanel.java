@@ -15,8 +15,6 @@ public class ProjectionsPanel extends MenuPagePanel
     private JToggleButton[] projectionsButtons;
     private ButtonGroup projectionsButtonsGroup;
 
-    private static ProjectionsPanel instance;
-
     public ProjectionsPanel() {
         super();
         initializeButtons();
@@ -29,7 +27,6 @@ public class ProjectionsPanel extends MenuPagePanel
         addObliqueFieldsListener();
         addPerspectiveFieldsListener();
         addSections();
-        instance = this;
     }
 
     private void initializeButtons() {
@@ -203,7 +200,7 @@ public class ProjectionsPanel extends MenuPagePanel
         });
     }
 
-    //TODO: add filling fields by default values
+    //TODO: add filling fields with default values
     @Override
     public void returnToInitialValues() {
         projectionsButtons[FRONT_PROJECTION].setSelected(true);

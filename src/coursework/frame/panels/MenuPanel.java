@@ -8,7 +8,7 @@ import java.awt.*;
 public class MenuPanel extends JPanel {
     private final Menu menu;
 
-    public MenuPanel(Window window, Dimension size) {
+    public MenuPanel(Dimension size) {
         super();
         setPreferredSize(size);
         menu = new Menu();

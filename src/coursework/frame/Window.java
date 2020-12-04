@@ -30,7 +30,7 @@ public class Window extends JFrame {
         Dimension halfWindowSize =
                 new Dimension(getSize().width / 2 - 25, getSize().height);
         drawingPanel = new DrawingPanel(halfWindowSize);
-        menuPanel = new MenuPanel(this, halfWindowSize);
+        menuPanel = new MenuPanel(halfWindowSize);
         mainPanel.add(drawingPanel);
         mainPanel.add(menuPanel);
         add(mainPanel);

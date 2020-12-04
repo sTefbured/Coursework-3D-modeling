@@ -1,7 +1,6 @@
 package coursework.frame.dialogs;
 
 import coursework.Main;
-import coursework.frame.Window;
 import coursework.frame.menus.utils.FieldParser;
 
 import javax.swing.*;
