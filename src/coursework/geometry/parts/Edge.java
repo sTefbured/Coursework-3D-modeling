@@ -33,8 +33,8 @@ public class Edge implements Projections {
                 setXYCoordinates(coordinates,
                         vertices[0].getCoordinates()[0],
                         vertices[1].getCoordinates()[0]);
-                swap(coordinates, 0, 1);
-                swap(coordinates, 2, 3);
+//                swap(coordinates, 0, 1);
+//                swap(coordinates, 2, 3);
             }
             default -> setXYCoordinates(coordinates,
                     vertices[0].getCoordinates()[0],

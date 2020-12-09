@@ -4,7 +4,6 @@ import coursework.exceptions.MatricesMismatchException;
 import coursework.geometry.parts.Vertex;
 import coursework.geometry.shapes.Shape;
 
-
 public class Transformations {
     private static double axonometricFi = 30 * Math.PI / 180.0;
     private static double axonometricPsi = 30 * Math.PI / 180.0;
@@ -172,7 +171,7 @@ public class Transformations {
         double[][] matrix = {
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
-                {a, b, 0, 0},
+                {a, b, 1, 0},
                 {0, 0, 0, 1},
         };
         for (Vertex vertex : copy.getVertices()) {

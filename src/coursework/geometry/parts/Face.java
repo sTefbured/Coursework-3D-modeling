@@ -1,5 +1,6 @@
 package coursework.geometry.parts;
 
+import coursework.Main;
 import coursework.geometry.utils.Transformations;
 
 import java.awt.*;
@@ -8,26 +9,48 @@ import java.util.Arrays;
 public class Face implements Projections {
     private final Edge[] edges;
     private final double[] normalVector;
+    private Vertex center;
+    private Color color = Color.GRAY;
 
     public Face(Vertex... vertices) {
         edges = new Edge[vertices.length - 1];
         for (int i = 0; i < edges.length; i++) {
             edges[i] = new Edge(vertices[i], vertices[i + 1]);
         }
+        center = new Vertex();
         normalVector = new double[4];
         setNormalVector();
     }
 
     public void draw(Graphics2D graphics2D, int projectionMode) {
-        setNormalVector();
-        if (Transformations
-                .getCos(normalVector, new double[]{0, 0, -1, 0}) < 0) {
+        //TODO: make it possible to turn that block off
+        if (getVectorsCos(projectionMode) < 0) {
             return;
         }
+        Polygon polygon = createPolygon(projectionMode);
+        graphics2D.setColor(color);
+        graphics2D.fillPolygon(polygon);
+        graphics2D.setColor(Color.BLACK);
+
 
         for (Edge edge : edges) {
             edge.draw(graphics2D, projectionMode);
         }
+    }
+
+    //TODO: finish
+    private double getVectorsCos(int projectionMode) {
+        setNormalVector();
+        double vectorsCos;
+        switch (projectionMode) {
+            case UP_PROJECTION -> vectorsCos = Transformations
+                    .getCos(normalVector, new double[]{0, 1, 0, 0});
+            case SIDE_PROJECTION -> vectorsCos = Transformations
+                    .getCos(normalVector, new double[]{1, 0, 0, 0});
+            default -> vectorsCos = Transformations
+                    .getCos(normalVector, new double[]{0, 0, -1, 0});
+        }
+        return vectorsCos;
     }
 
     public void setNormalVector() {
@@ -52,7 +75,49 @@ public class Face implements Projections {
         normalVector[0] = minor1;
         normalVector[1] = minor2;
         normalVector[2] = minor3;
-        normalVector[3] = 1;//-x1 * minor1 + y1 * minor2 - z1 * minor3;
+        normalVector[3] = 1;
+    }
+
+    public Vertex getCenter() {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        for (Edge edge : edges) {
+            x += edge.getVertices()[0].getX();
+            y += edge.getVertices()[0].getY();
+            z += edge.getVertices()[0].getZ();
+        }
+        x /= edges.length;
+        y /= edges.length;
+        z /= edges.length;
+        center.setX(x);
+        center.setY(y);
+        center.setZ(z);
+        return center;
+    }
+
+    private Polygon createPolygon(int projectionMode) {
+        int[] xPoints = new int[edges.length];
+        int[] yPoints = new int[edges.length];
+        int centerX = Main.getWindow().getDrawingPanel().getWidth() / 2;
+        int centerY = Main.getWindow().getDrawingPanel().getHeight() / 2;
+        if (projectionMode == Projections.UP_PROJECTION) {
+            for (int i = 0; i < edges.length; i++) {
+                xPoints[i] = (int) edges[i].getVertices()[0].getX() + centerX;
+                yPoints[i] = (int) -edges[i].getVertices()[0].getZ() + centerY;
+            }
+        } else if (projectionMode == Projections.SIDE_PROJECTION) {
+            for (int i = 0; i < edges.length; i++) {
+                xPoints[i] = (int) edges[i].getVertices()[0].getZ() + centerX;
+                yPoints[i] = (int) -edges[i].getVertices()[0].getY() + centerY;
+            }
+        } else {
+            for (int i = 0; i < edges.length; i++) {
+                xPoints[i] = (int) edges[i].getVertices()[0].getX() + centerX;
+                yPoints[i] = (int) -edges[i].getVertices()[0].getY() + centerY;
+            }
+        }
+        return new Polygon(xPoints, yPoints, edges.length);
     }
 
     @Override

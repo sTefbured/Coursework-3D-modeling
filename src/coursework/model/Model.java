@@ -8,6 +8,7 @@ import coursework.geometry.shapes.Shape;
 import coursework.geometry.utils.Transformations;
 
 import java.awt.Graphics2D;
+import java.util.Arrays;
 
 public class Model implements Projections {
     private int currentProjection;
@@ -50,12 +51,31 @@ public class Model implements Projections {
     }
 
     public void draw(Graphics2D graphics2D) {
-        for (Shape shape : shapes) {
+        //TODO: make it offable
+        Shape[] shapesToDraw = new Shape[shapes.length];
+        for (int i = 0; i < shapes.length; i++) {
+            shapesToDraw[i] = shapes[i].getProjectedShape(currentProjection);
+            shapesToDraw[i].setCenter();
+        }
+        sortShapes(shapesToDraw);
+
+        for (Shape shape : shapesToDraw) {
             for (Face face : shape.getFaces()) {
                 face.setNormalVector();
             }
             shape.draw(graphics2D, currentProjection);
         }
+    }
+
+    private void sortShapes(Shape[] shapes) {
+        Arrays.sort(shapes, (ob1, ob2) -> {
+            if (ob1.getCenter().getZ() < ob2.getCenter().getZ()) {
+                return 1;
+            } else if (ob1.getCenter().getZ() > ob2.getCenter().getZ()) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     public void transit(double dx, double dy, double dz) {

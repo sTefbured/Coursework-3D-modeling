@@ -46,8 +46,8 @@ public class ParametersDialog extends JDialog {
                 new JLabel("Parallelepiped's width"),
                 new JLabel("Parallelepiped's height"),
                 new JLabel("Parallelepiped's depth"),
-                new JLabel("Tetrahedron's side length"),
-                new JLabel("Tetrahedron's height")
+                new JLabel("Tetrahedron's height"),
+                new JLabel("Tetrahedron's side length")
         };
     }
 

@@ -22,8 +22,7 @@ public class ModelMenu extends JMenu {
     }
 
     private void addParametersListener() {
-        parametersItem.addActionListener((e) -> {
-            Main.getParametersDialog().setVisible(true);
-        });
+        parametersItem.addActionListener((e) ->
+                Main.getParametersDialog().setVisible(true));
     }
 }
