@@ -37,8 +37,6 @@ public class ApplicationMenu extends JMenu {
     }
 
     private void addExitListener() {
-        exitItem.addActionListener((e) -> {
-            System.exit(0);
-        });
+        exitItem.addActionListener((e) -> System.exit(0));
     }
 }

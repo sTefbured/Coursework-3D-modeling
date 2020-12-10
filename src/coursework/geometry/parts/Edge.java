@@ -14,10 +14,6 @@ public class Edge implements Projections {
         };
     }
 
-    private Edge(Vertex[] vertices) {
-        this.vertices = vertices;
-    }
-
     public void draw(Graphics2D graphics2D, int projectionMode) {
         int[] coordinates = new int[4];
         int xCenter = Main.getWindow().getDrawingPanel().getWidth() / 2;
@@ -94,13 +90,5 @@ public class Edge implements Projections {
             builder.append("\t\t").append(vertex.toString()).append("\n");
         }
         return builder.toString();
-    }
-
-    public Edge getCopy() {
-        Vertex[] copiedVertices = new Vertex[vertices.length];
-        for (int i = 0; i < vertices.length; i++) {
-            copiedVertices[i] = vertices[i].getCopy();
-        }
-        return new Edge(copiedVertices);
     }
 }

@@ -10,6 +10,7 @@ public abstract class Shape implements Projections {
     protected final Vertex[] beginValues;
     protected Vertex[] vertices;
     protected Face[] faces;
+    protected Face comparisonFace;
 
     public Shape(int verticesCount, Vertex... vertices)
             throws WrongCountException {
@@ -71,5 +72,9 @@ public abstract class Shape implements Projections {
 
     public Vertex[] getBeginValues() {
         return beginValues;
+    }
+
+    public Face getComparisonFace() {
+        return comparisonFace;
     }
 }

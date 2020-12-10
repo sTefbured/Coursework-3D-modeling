@@ -19,6 +19,7 @@ public class Tetrahedron extends Shape {
                 new Face(vertices[1], vertices[3], vertices[2], vertices[1]),
                 new Face(vertices[0], vertices[3], vertices[1], vertices[0])
         };
+        comparisonFace = faces[2];
     }
 
     @Override

@@ -6,7 +6,6 @@ import coursework.frame.menus.utils.FieldParser;
 import javax.swing.*;
 import java.awt.*;
 
-//FIXME: hard-coded values
 public class BasicTransformationsPanel extends MenuPagePanel {
     private final JTextField[] transitionFields;
     private final JTextField[] rotationFields;

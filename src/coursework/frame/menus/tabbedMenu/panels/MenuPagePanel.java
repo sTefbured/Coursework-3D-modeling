@@ -54,19 +54,19 @@ public abstract class MenuPagePanel extends JPanel {
     }
 
     private void addTitle(JLabel title) {
-        GridBagConstraints titleConstraints = getTitleConstraints(0, position);
+        GridBagConstraints titleConstraints = getTitleConstraints(position);
         title.setFont(font);
         add(title, titleConstraints);
         position++;
     }
 
-    private GridBagConstraints getTitleConstraints(int xPos, int yPos) {
+    private GridBagConstraints getTitleConstraints(int yPos) {
         GridBagConstraints labelConstraints = new GridBagConstraints();
         labelConstraints.anchor = GridBagConstraints.WEST;
         labelConstraints.insets = new Insets(0, 0, 10, 0);
         labelConstraints.gridwidth = 6;
         labelConstraints.gridheight = 1;
-        labelConstraints.gridx = xPos;
+        labelConstraints.gridx = 0;
         labelConstraints.gridy = yPos;
         return labelConstraints;
     }

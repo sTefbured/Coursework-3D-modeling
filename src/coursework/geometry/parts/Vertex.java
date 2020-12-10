@@ -47,10 +47,6 @@ public class Vertex {
         return coordinates;
     }
 
-    public double getParameter() {
-        return coordinates[0][3];
-    }
-
     public void setParameter(double parameter) {
         coordinates[0][3] = parameter;
     }

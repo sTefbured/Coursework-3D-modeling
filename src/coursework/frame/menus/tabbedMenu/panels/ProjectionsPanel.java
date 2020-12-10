@@ -13,7 +13,6 @@ public class ProjectionsPanel extends MenuPagePanel
     private JTextField[] obliqueFields;
     private JTextField[] perspectiveFields;
     private JToggleButton[] projectionsButtons;
-    private ButtonGroup projectionsButtonsGroup;
 
     public ProjectionsPanel() {
         super();
@@ -89,7 +88,7 @@ public class ProjectionsPanel extends MenuPagePanel
     }
 
     private void initializeButtonGroup() {
-        projectionsButtonsGroup = new ButtonGroup();
+        ButtonGroup projectionsButtonsGroup = new ButtonGroup();
         for (JToggleButton button : projectionsButtons) {
             projectionsButtonsGroup.add(button);
         }

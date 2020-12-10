@@ -6,8 +6,7 @@ import coursework.geometry.shapes.*;
 import coursework.geometry.utils.Transformations;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 
 public class Model implements Projections {
     private int currentProjection;
@@ -66,11 +65,7 @@ public class Model implements Projections {
         }
 
         if (isInColoringMode) {
-            ArrayList<Face> faces = getFacesToColor(shapesToDraw);
-            faces.forEach((face) -> face.draw(graphics2D, currentProjection,
-                    isInDeleteInvisibleMode, isInColoringMode,
-                    isInLightMode));
-            return;
+            sortShapes(shapesToDraw);
         }
 
         for (Shape shape : shapesToDraw) {
@@ -85,20 +80,12 @@ public class Model implements Projections {
         }
     }
 
-    private ArrayList<Face> getFacesToColor(Shape[] shapesToDraw) {
-        ArrayList<Face> faces = new ArrayList<>();
-        for (Shape shape : shapesToDraw) {
-            Collections.addAll(faces, shape.getFaces());
-        }
-        sortFaces(faces);
-        return faces;
-    }
-
-    private void sortFaces(ArrayList<Face> faces) {
-        faces.sort((ob1, ob2) -> {
-            if (ob1.getCenter().getZ() < ob2.getCenter().getZ()) {
+    private void sortShapes(Shape[] shapes) {
+        Arrays.sort(shapes, (ob1, ob2) -> {
+            if (ob1.getComparisonFace().getVectorsCos(currentProjection) < 0) {
                 return 1;
-            } else if (ob1.getCenter().getZ() > ob2.getCenter().getZ()) {
+            } else if (ob2.getComparisonFace()
+                    .getVectorsCos(currentProjection) < 0) {
                 return -1;
             }
             return 0;

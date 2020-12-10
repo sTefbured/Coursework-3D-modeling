@@ -50,8 +50,4 @@ public class Window extends JFrame {
     public JPanel getDrawingPanel() {
         return drawingPanel;
     }
-
-    public JPanel getMenuPanel() {
-        return menuPanel;
-    }
 }

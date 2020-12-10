@@ -33,6 +33,7 @@ public class Parallelepiped extends Shape {
                 new Face(vertices[7], vertices[0],
                         vertices[3], vertices[4], vertices[7]),
         };
+        comparisonFace = faces[5];
     }
 
     @Override

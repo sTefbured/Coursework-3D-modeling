@@ -9,8 +9,8 @@ import java.util.Arrays;
 public class Face implements Projections {
     private final Edge[] edges;
     private final double[] normalVector;
-    private Vertex center;
-    private Color color = Color.GRAY;
+    private final Vertex center;
+    private final Color color = Color.GRAY;
 
     public Face(Vertex... vertices) {
         edges = new Edge[vertices.length - 1];
@@ -27,7 +27,6 @@ public class Face implements Projections {
                      boolean deleteInvisible,
                      boolean isForColoring,
                      boolean isForLight) {
-        //TODO: make it possible to turn that block off
         if (deleteInvisible && (getVectorsCos(projectionMode) < 0)) {
             return;
         }
@@ -44,8 +43,7 @@ public class Face implements Projections {
         }
     }
 
-    //TODO: finish
-    private double getVectorsCos(int projectionMode) {
+    public double getVectorsCos(int projectionMode) {
         setNormalVector();
         double vectorsCos;
         switch (projectionMode) {
@@ -84,24 +82,6 @@ public class Face implements Projections {
         normalVector[3] = 1;
     }
 
-    public Vertex getCenter() {
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        for (Edge edge : edges) {
-            x += edge.getVertices()[0].getX();
-            y += edge.getVertices()[0].getY();
-            z += edge.getVertices()[0].getZ();
-        }
-        x /= edges.length;
-        y /= edges.length;
-        z /= edges.length;
-        center.setX(x);
-        center.setY(y);
-        center.setZ(z);
-        return center;
-    }
-
     private Polygon createPolygon(int projectionMode) {
         int[] xPoints = new int[edges.length];
         int[] yPoints = new int[edges.length];
@@ -116,6 +96,11 @@ public class Face implements Projections {
             for (int i = 0; i < edges.length; i++) {
                 xPoints[i] = (int) edges[i].getVertices()[0].getZ() + centerX;
                 yPoints[i] = (int) -edges[i].getVertices()[0].getY() + centerY;
+            }
+        } else if (projectionMode == Projections.PERSPECTIVE_PROJECTION) {
+            for (int i = 0; i < edges.length; i++) {
+                xPoints[i] = (int) edges[i].getVertices()[0].getY() + centerX;
+                yPoints[i] = (int) -edges[i].getVertices()[0].getX() + centerY;
             }
         } else {
             for (int i = 0; i < edges.length; i++) {
@@ -136,5 +121,24 @@ public class Face implements Projections {
         builder.append("Normal vector\n");
         builder.append(Arrays.toString(normalVector));
         return builder.toString();
+    }
+
+    // For ZBuffer
+    public Vertex getCenter() {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        for (Edge edge : edges) {
+            x += edge.getVertices()[0].getX();
+            y += edge.getVertices()[0].getY();
+            z += edge.getVertices()[0].getZ();
+        }
+        x /= edges.length;
+        y /= edges.length;
+        z /= edges.length;
+        center.setX(x);
+        center.setY(y);
+        center.setZ(z);
+        return center;
     }
 }
