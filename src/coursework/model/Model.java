@@ -134,15 +134,15 @@ public class Model implements Projections {
         this.currentProjection = currentProjection;
     }
 
-    public void switchDeleteInvisibleMode() {
-        isInDeleteInvisibleMode = !isInDeleteInvisibleMode;
+    public void setDeleteInvisibleMode(boolean isEnabled) {
+        isInDeleteInvisibleMode = isEnabled;
     }
 
-    public void switchColoringMode() {
-        isInColoringMode = !isInColoringMode;
+    public void setColoringMode(boolean isEnabled) {
+        isInColoringMode = isEnabled;
     }
 
-    public void switchLightMode() {
-        isInLightMode = !isInLightMode;
+    public void setLightMode(boolean isEnabled) {
+        isInLightMode = isEnabled;
     }
 }

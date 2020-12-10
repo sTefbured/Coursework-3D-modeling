@@ -30,11 +30,12 @@ public class ColoringPanel extends MenuPagePanel {
         deleteInvisibleToggleButton.addActionListener((e) -> {
             if (deleteInvisibleToggleButton.getText().equals("Off")) {
                 deleteInvisibleToggleButton.setText("On");
+                Main.getModel().setDeleteInvisibleMode(true);
             } else {
                 deleteInvisibleToggleButton.setText("Off");
+                Main.getModel().setDeleteInvisibleMode(false);
                 performActions(coloringToggleButton);
             }
-            Main.getModel().switchDeleteInvisibleMode();
             Main.getWindow().repaint();
         });
     }
@@ -44,16 +45,18 @@ public class ColoringPanel extends MenuPagePanel {
             if (!deleteInvisibleToggleButton.isSelected()) {
                 coloringToggleButton.setSelected(false);
                 coloringToggleButton.setText("Off");
+                Main.getModel().setColoringMode(false);
                 performActions(lightToggleButton);
                 return;
             }
             if (coloringToggleButton.getText().equals("Off")) {
                 coloringToggleButton.setText("On");
+                Main.getModel().setColoringMode(true);
             } else {
                 coloringToggleButton.setText("Off");
                 performActions(lightToggleButton);
+                Main.getModel().setColoringMode(false);
             }
-            Main.getModel().switchColoringMode();
             Main.getWindow().repaint();
         });
     }
@@ -63,14 +66,16 @@ public class ColoringPanel extends MenuPagePanel {
             if (!coloringToggleButton.isSelected()) {
                 lightToggleButton.setSelected(false);
                 lightToggleButton.setText("Off");
+                Main.getModel().setLightMode(false);
                 return;
             }
             if (lightToggleButton.getText().equals("Off")) {
                 lightToggleButton.setText("On");
+                Main.getModel().setLightMode(true);
             } else {
                 lightToggleButton.setText("Off");
+                Main.getModel().setLightMode(false);
             }
-            Main.getModel().switchLightMode();
             Main.getWindow().repaint();
         });
     }
