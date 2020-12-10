@@ -9,7 +9,6 @@ import java.awt.*;
 public abstract class Shape implements Projections {
     protected final Vertex[] beginValues;
     protected Vertex[] vertices;
-    protected Vertex center;
     protected Face[] faces;
 
     public Shape(int verticesCount, Vertex... vertices)
@@ -26,8 +25,6 @@ public abstract class Shape implements Projections {
         for (int i = 0; i < verticesCount; i++) {
             this.beginValues[i] = vertices[i].getCopy();
         }
-        center = new Vertex();
-        setCenter();
         initializeFaces();
     }
 
@@ -43,17 +40,20 @@ public abstract class Shape implements Projections {
                 Transformations.makePerspectiveProjection(copyShape);
             }
             default -> {
-                setCenter();
                 return this;
             }
         }
         return copyShape;
     }
 
-    //NOTE: if something goes wrong it could probably be the center's issue
-    public void draw(Graphics2D graphics2D, int projectionMode) {
+    public void draw(Graphics2D graphics2D,
+                     int projectionMode,
+                     boolean deleteInvisible,
+                     boolean isForColoring,
+                     boolean isForLight) {
         for (Face face : faces) {
-            face.draw(graphics2D, projectionMode);
+            face.draw(graphics2D, projectionMode,
+                    deleteInvisible, isForColoring, isForLight);
         }
     }
 
@@ -71,23 +71,5 @@ public abstract class Shape implements Projections {
 
     public Vertex[] getBeginValues() {
         return beginValues;
-    }
-
-    public Vertex getCenter() {
-        return center;
-    }
-
-    public void setCenter() {
-        double xSum = 0;
-        double ySum = 0;
-        double zSum = 0;
-        for (Vertex vertex : vertices) {
-            xSum += vertex.getX();
-            ySum += vertex.getY();
-            zSum += vertex.getZ();
-        }
-        center.setX(xSum);
-        center.setY(ySum);
-        center.setZ(zSum);
     }
 }

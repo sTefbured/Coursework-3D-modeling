@@ -22,16 +22,22 @@ public class Face implements Projections {
         setNormalVector();
     }
 
-    public void draw(Graphics2D graphics2D, int projectionMode) {
+    public void draw(Graphics2D graphics2D,
+                     int projectionMode,
+                     boolean deleteInvisible,
+                     boolean isForColoring,
+                     boolean isForLight) {
         //TODO: make it possible to turn that block off
-        if (getVectorsCos(projectionMode) < 0) {
+        if (deleteInvisible && (getVectorsCos(projectionMode) < 0)) {
             return;
         }
-        Polygon polygon = createPolygon(projectionMode);
-        graphics2D.setColor(color);
-        graphics2D.fillPolygon(polygon);
-        graphics2D.setColor(Color.BLACK);
 
+        if (isForColoring) {
+            Polygon polygon = createPolygon(projectionMode);
+            graphics2D.setColor(color);
+            graphics2D.fillPolygon(polygon);
+            graphics2D.setColor(Color.BLACK);
+        }
 
         for (Edge edge : edges) {
             edge.draw(graphics2D, projectionMode);
@@ -44,11 +50,11 @@ public class Face implements Projections {
         double vectorsCos;
         switch (projectionMode) {
             case UP_PROJECTION -> vectorsCos = Transformations
-                    .getCos(normalVector, new double[]{0, 1, 0, 0});
+                    .cosBetweenVectors(normalVector, new double[]{0, 1, 0, 0});
             case SIDE_PROJECTION -> vectorsCos = Transformations
-                    .getCos(normalVector, new double[]{1, 0, 0, 0});
+                    .cosBetweenVectors(normalVector, new double[]{1, 0, 0, 0});
             default -> vectorsCos = Transformations
-                    .getCos(normalVector, new double[]{0, 0, -1, 0});
+                    .cosBetweenVectors(normalVector, new double[]{0, 0, -1, 0});
         }
         return vectorsCos;
     }

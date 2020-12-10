@@ -1,22 +1,25 @@
 package coursework.model;
 
-import coursework.geometry.parts.Projections;
 import coursework.geometry.parts.*;
 import coursework.exceptions.WrongCountException;
 import coursework.geometry.shapes.*;
-import coursework.geometry.shapes.Shape;
 import coursework.geometry.utils.Transformations;
 
 import java.awt.Graphics2D;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Model implements Projections {
     private int currentProjection;
     private final Shape[] shapes;
+    private boolean isInDeleteInvisibleMode;
+    private boolean isInColoringMode;
+    private boolean isInLightMode;
 
     public Model(double a, double b, double c, double h, double d) {
         currentProjection = FRONT_PROJECTION;
         shapes = new Shape[2];
+        isInColoringMode = false;
         try {
             shapes[0] = createParallelepiped(a, b, c);
             shapes[1] = createTetrahedron(h, d);
@@ -51,24 +54,48 @@ public class Model implements Projections {
     }
 
     public void draw(Graphics2D graphics2D) {
-        //TODO: make it offable
         Shape[] shapesToDraw = new Shape[shapes.length];
         for (int i = 0; i < shapes.length; i++) {
             shapesToDraw[i] = shapes[i].getProjectedShape(currentProjection);
-            shapesToDraw[i].setCenter();
         }
-        sortShapes(shapesToDraw);
+
+        if (isInDeleteInvisibleMode) {
+            for (Shape shape : shapesToDraw) {
+                setNormalVectorToAll(shape.getFaces());
+            }
+        }
+
+        if (isInColoringMode) {
+            ArrayList<Face> faces = getFacesToColor(shapesToDraw);
+            faces.forEach((face) -> face.draw(graphics2D, currentProjection,
+                    isInDeleteInvisibleMode, isInColoringMode,
+                    isInLightMode));
+            return;
+        }
 
         for (Shape shape : shapesToDraw) {
-            for (Face face : shape.getFaces()) {
-                face.setNormalVector();
-            }
-            shape.draw(graphics2D, currentProjection);
+            shape.draw(graphics2D, currentProjection,
+                    isInDeleteInvisibleMode, isInColoringMode, isInLightMode);
         }
     }
 
-    private void sortShapes(Shape[] shapes) {
-        Arrays.sort(shapes, (ob1, ob2) -> {
+    private void setNormalVectorToAll(Face[] faces) {
+        for (Face face : faces) {
+            face.setNormalVector();
+        }
+    }
+
+    private ArrayList<Face> getFacesToColor(Shape[] shapesToDraw) {
+        ArrayList<Face> faces = new ArrayList<>();
+        for (Shape shape : shapesToDraw) {
+            Collections.addAll(faces, shape.getFaces());
+        }
+        sortFaces(faces);
+        return faces;
+    }
+
+    private void sortFaces(ArrayList<Face> faces) {
+        faces.sort((ob1, ob2) -> {
             if (ob1.getCenter().getZ() < ob2.getCenter().getZ()) {
                 return 1;
             } else if (ob1.getCenter().getZ() > ob2.getCenter().getZ()) {
@@ -105,5 +132,17 @@ public class Model implements Projections {
 
     public void setCurrentProjection(int currentProjection) {
         this.currentProjection = currentProjection;
+    }
+
+    public void switchDeleteInvisibleMode() {
+        isInDeleteInvisibleMode = !isInDeleteInvisibleMode;
+    }
+
+    public void switchColoringMode() {
+        isInColoringMode = !isInColoringMode;
+    }
+
+    public void switchLightMode() {
+        isInLightMode = !isInLightMode;
     }
 }

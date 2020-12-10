@@ -35,6 +35,7 @@ public class Transformations {
                             + "count of the second matrix.");
         }
         double[][] outMatrix = new double[matrix1.length][matrix2[0].length];
+
         for (int i = 0; i < outMatrix.length; i++) {
             for (int j = 0; j < outMatrix[i].length; j++) {
                 for (int k = 0; k < outMatrix[i].length; k++) {
@@ -48,6 +49,7 @@ public class Transformations {
     private static void multiply(Vertex dest, double[][] matrix) {
         double[][] coordinates = dest.getCoordinates();
         double[][] result;
+
         try {
             result = multiply(coordinates, matrix);
         } catch (MatricesMismatchException exception) {
@@ -67,12 +69,13 @@ public class Transformations {
                 {0, 0, 1, 0},
                 {dx, dy, dz, 1}
         };
+
         for (Vertex vertex : target.getVertices()) {
             multiply(vertex, transitionMatrix);
         }
     }
 
-    public static void scale(Shape target, double a, double b, double c) {
+    public static void scale(Shape copy, double a, double b, double c) {
         a = getCorrectScaleValue(a);
         b = getCorrectScaleValue(b);
         c = getCorrectScaleValue(c);
@@ -82,7 +85,8 @@ public class Transformations {
                 {0, 0, c, 0},
                 {0, 0, 0, 1}
         };
-        for (Vertex vertex : target.getVertices()) {
+
+        for (Vertex vertex : copy.getVertices()) {
             multiply(vertex, scaleMatrix);
         }
     }
@@ -115,6 +119,7 @@ public class Transformations {
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
+
         try {
             double[][] buf = multiply(matrixX, matrixY);
             return multiply(buf, matrixZ);
@@ -131,6 +136,7 @@ public class Transformations {
                                  double radZ) {
         double[][] rotationMatrix;
         rotationMatrix = createRotationMatrix(radX, radY, radZ);
+
         for (Vertex vertex : target.getVertices()) {
             multiply(vertex, rotationMatrix);
         }
@@ -149,6 +155,7 @@ public class Transformations {
     public static void makeAxonometricProjection(Shape copy) {
         double[][] rotationMatrix = createRotationMatrix(axonometricFi,
                 axonometricPsi, 0);
+
         if (rotationMatrix == null) {
             return;
         }
@@ -174,6 +181,7 @@ public class Transformations {
                 {a, b, 1, 0},
                 {0, 0, 0, 1},
         };
+
         for (Vertex vertex : copy.getVertices()) {
             multiply(vertex, matrix);
         }
@@ -195,13 +203,16 @@ public class Transformations {
                 {0, 0, 0, 0}
         };
         Vertex[] vertices = copy.getVertices();
+
         for (Vertex vertex : vertices) {
+            if ((vertex.getZ() >= 0) && (vertex.getZ() < 0.1)) {
+                vertex.setZ(0.1);
+            }
+            if ((vertex.getZ() < 0) && (vertex.getZ() > -0.1)) {
+                vertex.setZ(-0.1);
+            }
             multiply(vertex, matrix);
         }
-    }
-
-    public static void setPerspectiveDistance(double distance) {
-        perspectiveDistance = distance;
     }
 
     public static void makeViewTransformations(Shape copy) {
@@ -215,9 +226,14 @@ public class Transformations {
                 {0, sinFi, -cosFi, 0},
                 {0, 0, perspectiveRo, 1}
         };
+
         for (Vertex vertex : copy.getVertices()) {
             multiply(vertex, matrix);
         }
+    }
+
+    public static void setPerspectiveDistance(double distance) {
+        perspectiveDistance = distance;
     }
 
     public static void setPerspectiveRo(double ro) {
@@ -232,12 +248,13 @@ public class Transformations {
         perspectiveFi = Math.PI * fi / 180.0;
     }
 
-    public static double getCos(double[] vector1, double[] vector2) {
+    public static double cosBetweenVectors(double[] vector1, double[] vector2) {
         double multiplication = 0;
         double module1 = Math.sqrt(vector1[0] * vector1[0]
                 + vector1[1] * vector1[1] + vector1[2] * vector1[2]);
         double module2 = Math.sqrt(vector2[0] * vector2[0]
                 + vector2[1] * vector2[1] + vector2[2] * vector2[2]);
+
         for (int i = 0; i < vector1.length - 1; i++) {
             multiplication += vector1[i] * vector2[i];
         }
