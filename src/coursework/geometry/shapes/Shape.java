@@ -51,10 +51,11 @@ public abstract class Shape implements Projections {
                      int projectionMode,
                      boolean deleteInvisible,
                      boolean isForColoring,
-                     boolean isForLight) {
+                     boolean isForLight,
+                     Vertex lightPosition) {
         for (Face face : faces) {
-            face.draw(graphics2D, projectionMode,
-                    deleteInvisible, isForColoring, isForLight);
+            face.draw(graphics2D, projectionMode, deleteInvisible,
+                    isForColoring, isForLight, lightPosition);
         }
     }
 

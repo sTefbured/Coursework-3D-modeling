@@ -1,8 +1,11 @@
 package coursework.geometry.utils;
 
+import coursework.Main;
 import coursework.exceptions.MatricesMismatchException;
 import coursework.geometry.parts.Vertex;
 import coursework.geometry.shapes.Shape;
+
+import java.util.Arrays;
 
 public class Transformations {
     private static double axonometricFi = 30 * Math.PI / 180.0;
@@ -58,7 +61,7 @@ public class Transformations {
         }
         dest.setX(result[0][0] / result[0][3]);
         dest.setY(result[0][1] / result[0][3]);
-        dest.setZ(result[0][2] / result[0][3]);
+        dest.setZ(result[0][2]);
         dest.setParameter(result[0][3] / result[0][3]);
     }
 
@@ -249,15 +252,16 @@ public class Transformations {
     }
 
     public static double cosBetweenVectors(double[] vector1, double[] vector2) {
-        double multiplication = 0;
+        double multiplication = vector1[0] * vector2[0]
+                + vector1[1] * vector2[1] + vector1[2] * vector2[2];
+
         double module1 = Math.sqrt(vector1[0] * vector1[0]
                 + vector1[1] * vector1[1] + vector1[2] * vector1[2]);
+
         double module2 = Math.sqrt(vector2[0] * vector2[0]
                 + vector2[1] * vector2[1] + vector2[2] * vector2[2]);
-
-        for (int i = 0; i < vector1.length - 1; i++) {
-            multiplication += vector1[i] * vector2[i];
-        }
+        module1 = (module1 == 0) ? 0.0001 : module1;
+        module2 = (module2 == 0) ? 0.0001 : module2;
         return multiplication / (module1 * module2);
     }
 }

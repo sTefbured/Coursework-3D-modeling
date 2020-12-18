@@ -11,6 +11,9 @@ import java.util.Arrays;
 public class Model implements Projections {
     private int currentProjection;
     private final Shape[] shapes;
+
+    private final Vertex lightPoint;
+
     private boolean isInDeleteInvisibleMode;
     private boolean isInColoringMode;
     private boolean isInLightMode;
@@ -18,6 +21,7 @@ public class Model implements Projections {
     public Model(double a, double b, double c, double h, double d) {
         currentProjection = FRONT_PROJECTION;
         shapes = new Shape[2];
+        lightPoint = new Vertex(0, 0, 0, 0);
         isInColoringMode = false;
         try {
             shapes[0] = createParallelepiped(a, b, c);
@@ -53,6 +57,8 @@ public class Model implements Projections {
     }
 
     public void draw(Graphics2D graphics2D) {
+        //TODO: delete when the project is done
+        System.out.println();
         Shape[] shapesToDraw = new Shape[shapes.length];
         for (int i = 0; i < shapes.length; i++) {
             shapesToDraw[i] = shapes[i].getProjectedShape(currentProjection);
@@ -69,8 +75,8 @@ public class Model implements Projections {
         }
 
         for (Shape shape : shapesToDraw) {
-            shape.draw(graphics2D, currentProjection,
-                    isInDeleteInvisibleMode, isInColoringMode, isInLightMode);
+            shape.draw(graphics2D, currentProjection, isInDeleteInvisibleMode,
+                    isInColoringMode, isInLightMode, lightPoint);
         }
     }
 
@@ -131,5 +137,15 @@ public class Model implements Projections {
 
     public void setLightMode(boolean isEnabled) {
         isInLightMode = isEnabled;
+    }
+
+    public Vertex getLightPoint() {
+        return lightPoint;
+    }
+
+    public void setLightPoint(double x, double y, double z) {
+        lightPoint.setX(x);
+        lightPoint.setY(y);
+        lightPoint.setZ(z);
     }
 }

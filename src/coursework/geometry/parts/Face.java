@@ -10,7 +10,7 @@ public class Face implements Projections {
     private final Edge[] edges;
     private final double[] normalVector;
     private final Vertex center;
-    private final Color color = Color.GRAY;
+    private Color color;
 
     public Face(Vertex... vertices) {
         edges = new Edge[vertices.length - 1];
@@ -26,12 +26,14 @@ public class Face implements Projections {
                      int projectionMode,
                      boolean deleteInvisible,
                      boolean isForColoring,
-                     boolean isForLight) {
+                     boolean isForLight,
+                     Vertex lightPoint) {
         if (deleteInvisible && (getVectorsCos(projectionMode) < 0)) {
             return;
         }
 
         if (isForColoring) {
+            color = (isForLight) ? getLightColor(lightPoint) : Color.GRAY;
             Polygon polygon = createPolygon(projectionMode);
             graphics2D.setColor(color);
             graphics2D.fillPolygon(polygon);
@@ -41,6 +43,28 @@ public class Face implements Projections {
         for (Edge edge : edges) {
             edge.draw(graphics2D, projectionMode);
         }
+    }
+
+    public Color getLightColor(Vertex lightPoint) {
+        setNormalVector();
+        double[] lightVector = Arrays.copyOf(lightPoint.getCoordinates()[0], 3);
+        Vertex center = getCenter();
+        for (int i = 0; i < lightVector.length; i++) {
+            lightVector[i] -= center.getCoordinates()[0][i];
+        }
+        double i = (1 + 1 * Transformations.cosBetweenVectors(lightVector, normalVector));
+
+        if (i > 254) {
+            i = 254;
+        }
+        if (i < 0) {
+            i = 0;
+        }
+        return new Color((int) (100 * i), (int) (46 * i), (int) (50 * i));
+    }
+
+    public void setLightColor(Vertex lightPoint) {
+        color = getLightColor(lightPoint);
     }
 
     public double getVectorsCos(int projectionMode) {

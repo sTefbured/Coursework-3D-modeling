@@ -1,21 +1,32 @@
 package coursework.frame.menus.tabbedMenu.panels;
 
 import coursework.Main;
+import coursework.frame.menus.utils.FieldParser;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class ColoringPanel extends MenuPagePanel {
     private final JToggleButton deleteInvisibleToggleButton;
     private final JToggleButton coloringToggleButton;
     private final JToggleButton lightToggleButton;
 
+    private JTextField[] lightCoordinatesFields;
+    private JButton lightPointButton;
+
     public ColoringPanel() {
         super();
         deleteInvisibleToggleButton = new JToggleButton("Off");
         coloringToggleButton = new JToggleButton("Off");
         lightToggleButton = new JToggleButton("Off");
+        lightCoordinatesFields = new JTextField[] {
+                new JTextField(8),
+                new JTextField(8),
+                new JTextField(8)
+        };
+        lightPointButton = new JButton("Set light point");
         addListeners();
         addSections();
     }
@@ -24,6 +35,7 @@ public class ColoringPanel extends MenuPagePanel {
         addDeleteInvisibleButtonListener();
         addColoringButtonListener();
         addLightButtonListener();
+        addLightPointButton();
     }
 
     private void addDeleteInvisibleButtonListener() {
@@ -80,6 +92,16 @@ public class ColoringPanel extends MenuPagePanel {
         });
     }
 
+    private void addLightPointButton() {
+        lightPointButton.addActionListener((e) -> {
+            double x = FieldParser.parseField(lightCoordinatesFields[0], 0);
+            double y = FieldParser.parseField(lightCoordinatesFields[1], 0);
+            double z = FieldParser.parseField(lightCoordinatesFields[2], 0);
+            Main.getModel().setLightPoint(x, y, z);
+            Main.getWindow().repaint();
+        });
+    }
+
     private void performActions(JComponent component) {
         ActionListener[] listeners = component
                 .getListeners(ActionListener.class);
@@ -96,9 +118,16 @@ public class ColoringPanel extends MenuPagePanel {
                 {new JLabel("Coloring"), coloringToggleButton},
                 {new JLabel("Light"), lightToggleButton}
         };
+        JComponent[][] components1 = new JComponent[][]{
+                {new JLabel("X"), lightCoordinatesFields[0]},
+                {new JLabel("Y"), lightCoordinatesFields[1]},
+                {new JLabel("Z"), lightCoordinatesFields[2]}
+        };
         for (JComponent[] component : components) {
             addCenteredSection((JLabel) component[0], component[1]);
         }
+        addSection(new JLabel("Light point coordinates"), components1);
+        addCenteredSection(null, lightPointButton);
     }
 
     @Override

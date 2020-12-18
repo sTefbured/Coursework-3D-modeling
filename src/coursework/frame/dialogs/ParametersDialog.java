@@ -9,7 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ParametersDialog extends JDialog {
-    private final double[] defaultParameters = {150, 190, 250, 300, 350};
+    private final double[] defaultParameters = {150, 200, 300, 300, 300};
 
     private JTextField[] fields;
     private JLabel[] labels;
