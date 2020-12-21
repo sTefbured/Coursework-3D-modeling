@@ -14,13 +14,16 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame.setDefaultLookAndFeelDecorated(true);
-            window = new Window("3d shape");
+            window = new Window("3d модель");
             parametersDialog = new ParametersDialog(window);
             parametersDialog.setVisible(true);
         });
     }
 
-    public static void createModel(double[] parameters) {
+    public static void createModel(double[] parameters, boolean isRadiusGiven) {
+        if (isRadiusGiven) {
+            parameters[4] = parameters[5] * Math.sqrt(3);
+        }
         model = new Model(parameters[0], parameters[1], parameters[2],
                 parameters[3], parameters[4]);
     }

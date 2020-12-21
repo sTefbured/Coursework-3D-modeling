@@ -57,12 +57,14 @@ public class Model implements Projections {
     }
 
     public void draw(Graphics2D graphics2D) {
-        //TODO: delete when the project is done
-        System.out.println();
         Shape[] shapesToDraw = new Shape[shapes.length];
         for (int i = 0; i < shapes.length; i++) {
             shapesToDraw[i] = shapes[i].getProjectedShape(currentProjection);
         }
+//        Vertex
+//        if (currentProjection == PERSPECTIVE_PROJECTION) {
+//            lightPoint.setX();
+//        }
 
         if (isInDeleteInvisibleMode) {
             for (Shape shape : shapesToDraw) {

@@ -33,11 +33,17 @@ public class Face implements Projections {
         }
 
         if (isForColoring) {
-            color = (isForLight) ? getLightColor(lightPoint) : Color.GRAY;
+            color = (isForLight)
+                    ? getLightColor(lightPoint, projectionMode)
+                    : Color.GRAY;
             Polygon polygon = createPolygon(projectionMode);
             graphics2D.setColor(color);
             graphics2D.fillPolygon(polygon);
             graphics2D.setColor(Color.BLACK);
+        }
+
+        if (isForLight) {
+            return;
         }
 
         for (Edge edge : edges) {
@@ -45,14 +51,19 @@ public class Face implements Projections {
         }
     }
 
-    public Color getLightColor(Vertex lightPoint) {
+    public Color getLightColor(Vertex lightPoint, int projection) {
         setNormalVector();
         double[] lightVector = Arrays.copyOf(lightPoint.getCoordinates()[0], 3);
+        if (projection == PERSPECTIVE_PROJECTION) {
+            for (int i = 0; i < lightVector.length; i++) {
+                lightVector[i] *= -1;
+            }
+        }
         Vertex center = getCenter();
         for (int i = 0; i < lightVector.length; i++) {
             lightVector[i] -= center.getCoordinates()[0][i];
         }
-        double i = (1 + 1 * Transformations.cosBetweenVectors(lightVector, normalVector));
+        double i = (127 + 127 * Transformations.cosBetweenVectors(lightVector, normalVector));
 
         if (i > 254) {
             i = 254;
@@ -60,11 +71,7 @@ public class Face implements Projections {
         if (i < 0) {
             i = 0;
         }
-        return new Color((int) (100 * i), (int) (46 * i), (int) (50 * i));
-    }
-
-    public void setLightColor(Vertex lightPoint) {
-        color = getLightColor(lightPoint);
+        return new Color((int) i, (int) 0, (int) 0);
     }
 
     public double getVectorsCos(int projectionMode) {
@@ -75,6 +82,16 @@ public class Face implements Projections {
                     .cosBetweenVectors(normalVector, new double[]{0, 1, 0, 0});
             case SIDE_PROJECTION -> vectorsCos = Transformations
                     .cosBetweenVectors(normalVector, new double[]{1, 0, 0, 0});
+            case PERSPECTIVE_PROJECTION -> {
+                double ro = Transformations.getPerspectiveRo();
+                if (ro > 0) {
+                    vectorsCos = Transformations
+                            .cosBetweenVectors(normalVector, new double[]{0, 0, 1, 0});
+                } else {
+                    vectorsCos = Transformations
+                            .cosBetweenVectors(normalVector, new double[]{0, 0, -1, 0});
+                }
+            }
             default -> vectorsCos = Transformations
                     .cosBetweenVectors(normalVector, new double[]{0, 0, -1, 0});
         }
@@ -123,8 +140,8 @@ public class Face implements Projections {
             }
         } else if (projectionMode == Projections.PERSPECTIVE_PROJECTION) {
             for (int i = 0; i < edges.length; i++) {
-                xPoints[i] = (int) edges[i].getVertices()[0].getY() + centerX;
-                yPoints[i] = (int) -edges[i].getVertices()[0].getX() + centerY;
+                xPoints[i] = (int) edges[i].getVertices()[0].getX() + centerX;
+                yPoints[i] = (int) -edges[i].getVertices()[0].getY() + centerY;
             }
         } else {
             for (int i = 0; i < edges.length; i++) {
@@ -147,7 +164,6 @@ public class Face implements Projections {
         return builder.toString();
     }
 
-    // For ZBuffer
     public Vertex getCenter() {
         int x = 0;
         int y = 0;

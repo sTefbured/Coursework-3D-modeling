@@ -82,9 +82,6 @@ public class ProjectionsPanel extends MenuPagePanel
                 new JTextField(8),
                 new JTextField(8)
         };
-        for (JTextField field : perspectiveFields) {
-            field.setText("1000");
-        }
     }
 
     private void initializeButtonGroup() {
@@ -178,22 +175,22 @@ public class ProjectionsPanel extends MenuPagePanel
 
     private void addPerspectiveFieldsListener() {
         perspectiveFields[0].addActionListener(e -> {
-            double distance = FieldParser.parseField(perspectiveFields[0], 200);
+            double distance = FieldParser.parseField(perspectiveFields[0], 0);
             Transformations.setPerspectiveDistance(distance);
             Main.getWindow().repaint();
         });
         perspectiveFields[1].addActionListener(e -> {
-            double ro = FieldParser.parseField(perspectiveFields[1], 200);
+            double ro = FieldParser.parseField(perspectiveFields[1], 0);
             Transformations.setPerspectiveRo(ro);
             Main.getWindow().repaint();
         });
         perspectiveFields[2].addActionListener(e -> {
-            double fi = FieldParser.parseField(perspectiveFields[2], 200);
+            double fi = FieldParser.parseField(perspectiveFields[2], 0);
             Transformations.setPerspectiveFi(fi);
             Main.getWindow().repaint();
         });
         perspectiveFields[3].addActionListener(e -> {
-            double teta = FieldParser.parseField(perspectiveFields[3], 200);
+            double teta = FieldParser.parseField(perspectiveFields[3], -90);
             Transformations.setPerspectiveTeta(teta);
             Main.getWindow().repaint();
         });

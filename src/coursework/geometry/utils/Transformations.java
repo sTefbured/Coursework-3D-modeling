@@ -5,8 +5,6 @@ import coursework.exceptions.MatricesMismatchException;
 import coursework.geometry.parts.Vertex;
 import coursework.geometry.shapes.Shape;
 
-import java.util.Arrays;
-
 public class Transformations {
     private static double axonometricFi = 30 * Math.PI / 180.0;
     private static double axonometricPsi = 30 * Math.PI / 180.0;
@@ -14,10 +12,10 @@ public class Transformations {
     private static double obliqueLength = 1;
     private static double obliqueAngle = 45 * Math.PI / 180.0;
 
-    private static double perspectiveDistance = 1000;
-    private static double perspectiveRo = 1000;
-    private static double perspectiveTeta = 1000;
-    private static double perspectiveFi = 1000;
+    private static double perspectiveDistance = 0;
+    private static double perspectiveRo = 0;
+    private static double perspectiveTeta = Math.PI * (-90) / 180.0;
+    private static double perspectiveFi = 0;
 
 
     public static void returnToInitialValues(Shape shape) {
@@ -237,6 +235,10 @@ public class Transformations {
 
     public static void setPerspectiveDistance(double distance) {
         perspectiveDistance = distance;
+    }
+
+    public static double getPerspectiveRo() {
+        return perspectiveRo;
     }
 
     public static void setPerspectiveRo(double ro) {
